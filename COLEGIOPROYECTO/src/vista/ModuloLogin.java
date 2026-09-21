@@ -14,7 +14,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Login2 extends JFrame {
+public class ModuloLogin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -28,7 +28,7 @@ public class Login2 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login2 frame = new Login2();
+					ModuloLogin frame = new ModuloLogin();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,14 +40,14 @@ public class Login2 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Login2() {
+	public ModuloLogin() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 476, 381);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		ImageIcon iconoOriginal = new ImageIcon(Login2.class.getResource("/recursos/COLEIMA.jpg"));
+		ImageIcon iconoOriginal = new ImageIcon(ModuloLogin.class.getResource("/recursos/COLEIMA.jpg"));
 		java.awt.Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(550, 400, java.awt.Image.SCALE_SMOOTH);
 		
 		JLabel lblNewLabel = new JLabel("USUARIO");
