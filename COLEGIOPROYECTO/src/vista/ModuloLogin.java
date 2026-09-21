@@ -74,7 +74,11 @@ public class ModuloLogin extends JFrame {
 
 			if (usuario.equals("admin") && password.equals("12345")) {
 			    javax.swing.JOptionPane.showMessageDialog(null, "¡Bienvenido al Sistema de Matrícula Miguel Grau!");
-			    // Aquí más adelante abriremos el menú principal del ERP
+			    ModuloInicio ventanaMenu = new ModuloInicio();
+			    ventanaMenu.setVisible(true);
+			    dispose();
+			    
+			    // Aquí abriremos el menú principal del ERP
 			} else {
 			    javax.swing.JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error de Acceso", javax.swing.JOptionPane.ERROR_MESSAGE);
 			}
