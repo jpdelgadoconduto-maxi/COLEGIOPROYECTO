@@ -1,0 +1,301 @@
+==================================================
+Código: ALU001
+DNI: 71234567
+Nombre: Mateo Alejandro
+Apellidos: Quispe Flores
+Edad: 12
+Grado al que pasa: 1ro de Secundaria
+Teléfono: 015551234
+Nombre del Papá: Carlos Quispe Ramos
+Nombre de la Mamá: María Flores Chávez
+Celular Apoderado: 991234567
+Dirección: Av. Costa Azul Mz. A Lt. 5, Ventanilla
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 03/03/2026
+Responsable del Movimiento: Carlos Quispe Ramos (Papá)
+==================================================
+Código: ALU002
+DNI: 72345678
+Nombre: Valeria Sofía
+Apellidos: Mendoza Ruíz
+Edad: 13
+Grado al que pasa: 2do de Secundaria
+Teléfono: 015555678
+Nombre del Papá: Javier Mendoza Torres
+Nombre de la Mamá: Elena Ruíz Delgado
+Celular Apoderado: 992345678
+Dirección: Calle Los Almendros 142, Callao
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 28/02/2026
+Responsable del Movimiento: Elena Ruíz Delgado (Mamá)
+==================================================
+Código: ALU003
+DNI: 73456789
+Nombre: Thiago Benjamín
+Apellidos: Alva Gutiérrez
+Edad: 11
+Grado al que pasa: 6to de Primaria
+Teléfono: 015559012
+Nombre del Papá: Luis Alva Castro
+Nombre de la Mamá: Patricia Gutiérrez Paz
+Celular Apoderado: 993456789
+Dirección: Jr. Progreso 405, Ventanilla Alta
+Estado de Matrícula: EN PROCESO (Falta Documentos)
+Fecha de Movimiento: 10/03/2026
+Responsable del Movimiento: Patricia Gutiérrez Paz (Mamá)
+==================================================
+Código: ALU004
+DNI: 74567890
+Nombre: Camila Fernanda
+Apellidos: Rojas Palomino
+Edad: 14
+Grado al que pasa: 3ro de Secundaria
+Teléfono: 015553456
+Nombre del Papá: Ricardo Rojas Ortiz
+Nombre de la Mamá: Diana Palomino Vega
+Celular Apoderado: 994567890
+Dirección: Av. Pedro Beltrán Mz. C Lt. 12, Ciudad Satélite
+Estado de Matrícula: RETIRADO
+Fecha de Movimiento: 18/08/2026
+Responsable del Movimiento: Ricardo Rojas Ortiz (Papá)
+==================================================
+Código: ALU005
+DNI: 75678901
+Nombre: Lucas Daniel
+Apellidos: Sánchez Paredes
+Edad: 15
+Grado al que pasa: 4to de Secundaria
+Teléfono: 015557890
+Nombre del Papá: Fernando Sánchez León
+Nombre de la Mamá: Rosa Paredes Soto
+Celular Apoderado: 995678901
+Dirección: Calle Las Magnolias 210, Urbanización La Naval
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 02/03/2026
+Responsable del Movimiento: Fernando Sánchez León (Papá)
+==================================================
+Código: ALU006
+DNI: 76789012
+Nombre: Andrea Jimena
+Apellidos: Gonzales Diaz
+Edad: 12
+Grado al que pasa: 1ro de Secundaria
+Teléfono: 015552345
+Nombre del Papá: Manuel Gonzales Cruz
+Nombre de la Mamá: Silvia Diaz Ramos
+Celular Apoderado: 996789012
+Dirección: Av. Néstor Gambetta Km. 18, Callao
+Estado de Matrícula: EN PROCESO (Falta Documentos)
+Fecha de Movimiento: 12/03/2026
+Responsable del Movimiento: Silvia Diaz Ramos (Mamá)
+==================================================
+Código: ALU007
+DNI: 77890123
+Nombre: Joaquín Alonso
+Apellidos: Ramirez Espinoza
+Edad: 16
+Grado al que pasa: 5to de Secundaria
+Teléfono: 015556789
+Nombre del Papá: Alberto Ramirez Luna
+Nombre de la Mamá: Carmen Espinoza Solís
+Celular Apoderado: 997890123
+Dirección: Mz. E1 Lt. 14, Asentamiento Humano Villa Los Reyes
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 04/03/2026
+Responsable del Movimiento: Alberto Ramirez Luna (Papá)
+==================================================
+Código: ALU008
+DNI: 78901234
+Nombre: Flavia Alejandra
+Apellidos: Castro Ramos
+Edad: 13
+Grado al que pasa: 2do de Secundaria
+Teléfono: 015550123
+Nombre del Papá: Hugo Castro Meléndez
+Nombre de la Mamá: Martha Ramos Vidal
+Celular Apoderado: 998901234
+Dirección: Jr. Ayacucho 320, Bellavista
+Estado de Matrícula: RETIRADO
+Fecha de Movimiento: 04/09/2026
+Responsable del Movimiento: Martha Ramos Vidal (Mamá)
+==================================================
+Código: ALU009
+DNI: 79012345
+Nombre: Nicolás André
+Apellidos: Vargas Benites
+Edad: 11
+Grado al que pasa: 6to de Primaria
+Teléfono: 015554567
+Nombre del Papá: Jorge Vargas Soto
+Nombre de la Mamá: Laura Benites Tello
+Celular Apoderado: 999012345
+Dirección: Av. La Playa Mz. F Lt. 8, Ventanilla
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 05/03/2026
+Responsable del Movimiento: Jorge Vargas Soto (Papá)
+==================================================
+Código: ALU010
+DNI: 60123456
+Nombre: Luciana Valentina
+Apellidos: Herrera Farfán
+Edad: 14
+Grado al que pasa: 3ro de Secundaria
+Teléfono: 015558901
+Nombre del Papá: César Herrera Peña
+Nombre de la Mamá: Beatriz Farfán Robles
+Celular Apoderado: 991112233
+Dirección: Pasaje Los Pinos 104, La Perla
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 01/03/2026
+Responsable del Movimiento: Beatriz Farfán Robles (Mamá)
+==================================================
+Código: ALU011
+DNI: 61234567
+Nombre: Gabriel Omar
+Apellidos: Flores Villanueva
+Edad: 15
+Grado al que pasa: 4to de Secundaria
+Teléfono: 015552468
+Nombre del Papá: Víctor Flores Guerra
+Nombre de la Mamá: Julia Villanueva Arrieta
+Celular Apoderado: 992223344
+Dirección: Av. Central Mz. H Lt. 22, Mi Perú
+Estado de Matrícula: EN PROCESO (Falta Documentos)
+Fecha de Movimiento: 15/03/2026
+Responsable del Movimiento: Víctor Flores Guerra (Papá)
+==================================================
+Código: ALU012
+DNI: 62345678
+Nombre: Antonella Belén
+Apellidos: Morales Smith
+Edad: 12
+Grado al que pasa: 1ro de Secundaria
+Teléfono: 015551357
+Nombre del Papá: Walter Morales Cáceres
+Nombre de la Mamá: Nancy Smith Wong
+Celular Apoderado: 993334455
+Dirección: Calle San Martín 512, Ventanilla
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 02/03/2026
+Responsable del Movimiento: Nancy Smith Wong (Mamá)
+==================================================
+Código: ALU013
+DNI: 63456789
+Nombre: Samuel Isaac
+Apellidos: Castillo Navarro
+Edad: 16
+Grado al que pasa: 5to de Secundaria
+Teléfono: 015559876
+Nombre del Papá: Edgar Castillo Rivas
+Nombre de la Mamá: Alicia Navarro Pozos
+Celular Apoderado: 994445566
+Dirección: Jr. Lima 789, Callao Cercado
+Estado de Matrícula: RETIRADO
+Fecha de Movimiento: 11/09/2026
+Responsable del Movimiento: Edgar Castillo Rivas (Papá)
+==================================================
+Código: ALU014
+DNI: 64567890
+Nombre: Mia Isabella
+Apellidos: Guerrero Córdoba
+Edad: 13
+Grado al que pasa: 2do de Secundaria
+Teléfono: 015555432
+Nombre del Papá: Alfredo Guerrero Marín
+Nombre de la Mamá: Cecilia Córdoba Ortiz
+Celular Apoderado: 995556677
+Dirección: Av. Víctor Raúl Haya de la Torre Mz. K Lt. 4
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 27/02/2026
+Responsable del Movimiento: Cecilia Córdoba Ortiz (Mamá)
+==================================================
+Código: ALU015
+DNI: 65678901
+Nombre: Christopher Gael
+Apellidos: Paredes Zuñiga
+Edad: 11
+Grado al que pasa: 6to de Primaria
+Teléfono: 015551111
+Nombre del Papá: Roberto Paredes Vidal
+Nombre de la Mamá: Sonia Zuñiga Bravo
+Celular Apoderado: 996667788
+Dirección: Calle Los Geranios 115, Mi Perú
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 06/03/2026
+Responsable del Movimiento: Roberto Paredes Vidal (Papá)
+==================================================
+Código: ALU016
+DNI: 66789012
+Nombre: Daniela Paz
+Apellidos: Medina Maldonado
+Edad: 14
+Grado al que pasa: 3ro de Secundaria
+Teléfono: 015552222
+Nombre del Papá: Gustavo Medina Loayza
+Nombre de la Mamá: Teresa Maldonado Ríos
+Celular Apoderado: 997778899
+Dirección: Av. Pacasmayo Mz. X Lt. 19, Callao
+Estado de Matrícula: EN PROCESO (Falta Documentos)
+Fecha de Movimiento: 09/03/2026
+Responsable del Movimiento: Teresa Maldonado Ríos (Mamá)
+==================================================
+Código: ALU017
+DNI: 67890123
+Nombre: Leonardo Fabio
+Apellidos: Miranda Rivas
+Edad: 15
+Grado al que pasa: 4to de Secundaria
+Teléfono: 015553333
+Nombre del Papá: Francisco Miranda Neyra
+Nombre de la Mamá: Isabel Rivas Solano
+Celular Apoderado: 998889900
+Dirección: Jr. Vigil 435, Callao
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 03/03/2026
+Responsable del Movimiento: Francisco Miranda Neyra (Papá)
+==================================================
+Código: ALU018
+DNI: 68901234
+Nombre: María José
+Apellidos: Salazar Campos
+Edad: 12
+Grado al que pasa: 1ro de Secundaria
+Teléfono: 015554444
+Nombre del Papá: Oscar Salazar Fuentes
+Nombre de la Mamá: Verónica Campos Leyva
+Celular Apoderado: 999990011
+Dirección: Av. República de Panamá Mz. Ñ Lt. 2, Ventanilla
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 04/03/2026
+Responsable del Movimiento: Verónica Campos Leyva (Mamá)
+==================================================
+Código: ALU019
+DNI: 69012345
+Nombre: Sebastián Enrique
+Apellidos: Aguilar Ponce
+Edad: 16
+Grado al que pasa: 5to de Secundaria
+Teléfono: 015555555
+Nombre del Papá: Enrique Aguilar Méndez
+Nombre de la Mamá: Clara Ponce Gutiérrez
+Celular Apoderado: 991122334
+Dirección: Calle Alfonso Ugarte 218, Carmen de la Legua
+Estado de Matrícula: RETIRADO
+Fecha de Movimiento: 31/08/2026
+Responsable del Movimiento: Enrique Aguilar Méndez (Papá)
+==================================================
+Código: ALU020
+DNI: 70234561
+Nombre: Valentina Noemí
+Apellidos: Peña Sandoval
+Edad: 13
+Grado al que pasa: 2do de Secundaria
+Teléfono: 015556666
+Nombre del Papá: Arturo Peña Cisneros
+Nombre de la Mamá: Noemí Sandoval Baca
+Celular Apoderado: 992233445
+Dirección: Av. Topacios Mz. Z Lt. 30, San Antonio, Callao
+Estado de Matrícula: MATRICULADO
+Fecha de Movimiento: 01/03/2026
+Responsable del Movimiento: Noemí Sandoval Baca (Mamá)
+==================================================
