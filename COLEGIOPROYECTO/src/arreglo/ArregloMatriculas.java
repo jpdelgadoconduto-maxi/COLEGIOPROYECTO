@@ -18,7 +18,7 @@ public class ArregloMatriculas {
         guardar();
     }
 
-    public int tamaño() {
+    public int tamaÃ±o() {
         return matriculas.size();
     }
 
