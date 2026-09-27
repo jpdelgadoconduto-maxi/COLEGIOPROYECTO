@@ -87,7 +87,7 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		lblNewLabel.setBounds(190, 10, 220, 32);
 		contentPane.add(lblNewLabel);
 		
-		lblNMatricula = new JLabel("N� Matricula");
+		lblNMatricula = new JLabel("N Matricula");
 		lblNMatricula.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNMatricula.setBounds(20, 57, 85, 32);
 		contentPane.add(lblNMatricula);
