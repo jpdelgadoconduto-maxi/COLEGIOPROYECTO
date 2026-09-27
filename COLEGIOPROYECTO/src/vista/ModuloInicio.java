@@ -5,12 +5,16 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ModuloInicio extends JFrame {
+public class ModuloInicio extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
+    private JButton btnMatricula;
+    private JButton btnMantenimiento;
+    private JButton btnConsulta;
+    private JButton btnReporte;
 
     public ModuloInicio() {
-        // 1. Configuración de la ventana principal
-        setTitle("Sistema de Gestión - Colegio Miguel Grau");
+        // 1. ConfiguraciÃ³n de la ventana principal
+        setTitle("Sistema de GestiÃ³n - Colegio Miguel Grau");
         setSize(800, 600); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setLocationRelativeTo(null); 
@@ -21,14 +25,14 @@ public class ModuloInicio extends JFrame {
         panelSuperior.setBackground(new Color(24, 43, 73)); // Azul institucional
         panelSuperior.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
         
-        JLabel lblTitulo = new JLabel("SISTEMA DE GESTIÓN - COLEGIO MIGUEL GRAU");
+        JLabel lblTitulo = new JLabel("SISTEMA DE GESTIÃ“N - COLEGIO MIGUEL GRAU");
         lblTitulo.setForeground(Color.WHITE);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
         panelSuperior.add(lblTitulo);
         
         getContentPane().add(panelSuperior, BorderLayout.NORTH);
 
-        // --- CONFIGURACIÓN DE LA IMAGEN DE FONDO ---
+        // --- CONFIGURACIÃ“N DE LA IMAGEN DE FONDO ---
         JLabel lblEscudoFondo = new JLabel();
         ImageIcon iconoOriginal = new ImageIcon("src/recursos/COLEIMA.jpg");
         java.awt.Image imagenAchicada = iconoOriginal.getImage().getScaledInstance(900, 600, java.awt.Image.SCALE_SMOOTH);
@@ -36,19 +40,20 @@ public class ModuloInicio extends JFrame {
         lblEscudoFondo.setHorizontalAlignment(SwingConstants.CENTER);
         lblEscudoFondo.setLayout(new BorderLayout());
 
-        // 3. Panel Central para tus 4 módulos
+        // 3. Panel Central para tus 4 mÃ³dulos
         JPanel panelModulos = new JPanel();
         panelModulos.setLayout(new GridLayout(2, 2, 40, 40)); 
         panelModulos.setBorder(BorderFactory.createEmptyBorder(100, 180, 100, 180)); 
         panelModulos.setOpaque(false); // Transparente para ver el fondo
 
-        // Creación de los botones
-        JButton btnMatricula = new JButton("MATRÍCULA");
+        // CreaciÃ³n de los botones
+        btnMatricula = new JButton("MATRÃ�CULA");
+        btnMatricula.addActionListener(this);
         JButton btnMantenimiento = new JButton("MANTENIMIENTO");
         JButton btnConsulta = new JButton("CONSULTAS");
         JButton btnReporte = new JButton("REPORTES");
 
-        // 🌟 CORRECCIÓN CRÍTICA: Se le pasa "ModuloInicio.this" para conectar la navegación POO
+        // ðŸŒŸ CORRECCIÃ“N CRÃ�TICA: Se le pasa "ModuloInicio.this" para conectar la navegaciÃ³n POO
         btnConsulta.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) { 
                 ModuloConsulta ventanaConsulta = new ModuloConsulta(ModuloInicio.this);
@@ -80,4 +85,16 @@ public class ModuloInicio extends JFrame {
             new ModuloInicio().setVisible(true);
         });
     }
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnMatricula) {
+			actionPerformedBtnMatricula(e);
+		}
+	}
+	protected void actionPerformedBtnMatricula(ActionEvent e) {
+		ModuloMatricula ventanaMatricula = new ModuloMatricula();
+        ventanaMatricula.setLocationRelativeTo(null);
+        ventanaMatricula.setVisible(true);
+        this.dispose();// Oculta la ventana de inicio actual
+        }
+	
 }
