@@ -82,7 +82,7 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblNewLabel = new JLabel("MATR�CULA DE ALUMNOS");
+		lblNewLabel = new JLabel("MATRICULA DE ALUMNOS");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setBounds(190, 10, 220, 32);
 		contentPane.add(lblNewLabel);
@@ -113,7 +113,7 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		btnBuscar.addActionListener(this);
 		contentPane.add(btnBuscar);
 		
-		lblGradoSeccion = new JLabel("Grado / Secci�n");
+		lblGradoSeccion = new JLabel("Grado / Seccion");
 		lblGradoSeccion.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblGradoSeccion.setBounds(20, 141, 103, 32);
 		contentPane.add(lblGradoSeccion);
@@ -346,7 +346,7 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 
 	private void listarMatriculas() {
 		textArea.setText("");
-		textArea.append("N� MATR�CULA\tCOD. ALUMNO\tFECHA\t\tHORA\n");
+		textArea.append("N MATRICULA\tCOD. ALUMNO\tFECHA\t\tHORA\n");
 		textArea.append("-----------------------------------------------------------------------------------\n");
 		for (int i = 0; i < am.tamaño(); i++) {
 			Matricula m = am.obtener(i);
