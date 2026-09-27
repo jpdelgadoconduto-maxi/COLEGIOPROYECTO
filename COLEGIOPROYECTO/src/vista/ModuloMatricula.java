@@ -1,268 +1,359 @@
 package vista;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Color;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JSeparator;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
-import Control.Alumnocontroler;
-import Control.Alumno; // Asegúrate de ajustar este import a la ubicación exacta de tu clase Alumno
+// Importaciones de capa de modelo y arreglos
+import arreglo.ArregloAlumnos;
+import arreglo.ArregloGrados;
+import arreglo.ArregloMatriculas;
+import clases.Alumno;
+import clases.Matricula;
 
-public class ModuloMatricula extends JFrame {
+public class ModuloMatricula extends JFrame implements ActionListener {
 
-    private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
-    
-    // Controlador
-    private Alumnocontroler alumnoController;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField textCod;
+	private JLabel lblNewLabel;
+	private JLabel lblNMatricula;
+	private JLabel lblCodalumno;
+	private JTextField textMatricula;
+	private JLabel lblGradoSeccion;
+	private JLabel lblFecha;
+	private JLabel lblAlumno;
+	private JLabel lblVacante;
+	private JTextField textVacante;
+	private JTextField textAlumno;
+	private JTextField textFecha;
+	private JLabel lblHora;
+	private JTextField textHora;
+	private JButton btnMatricular;
+	private JButton btnAnular;
+	private JButton btnBorrar;
+	private JTextArea textArea;
+	private JComboBox<String> comboBox;
+	private JButton btnBuscar;
 
-    // Componentes del formulario
-    private JTextField txtBuscarDni;
-    private JTextField txtCodigo;
-    private JTextField txtNombres;
-    private JTextField txtApellidos;
-    private JTextField txtEdad;
-    private JTextField txtGrado;
-    private JTextField txtTelefono;
-    private JTextField txtApoderado;
-    private JComboBox<String> cbEstadoMatricula;
+	// Arreglos globales que gestionan los datos y archivos .txt
+	private ArregloMatriculas am = new ArregloMatriculas();
+	private ArregloAlumnos aa = new ArregloAlumnos();
+	private ArregloGrados ag = new ArregloGrados();
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ModuloMatricula frame = new ModuloMatricula();
-                    frame.setLocationRelativeTo(null);
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ModuloMatricula frame = new ModuloMatricula();
+					frame.setVisible(true);
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-    public ModuloMatricula() {
-        // Inicializar el controlador
-        alumnoController = new Alumnocontroler();
+	public ModuloMatricula() {
+		setTitle("Sistema de Matrícula Escolar - Nivel Primaria");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 615, 399);
+		setLocationRelativeTo(null);
+		
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		lblNewLabel = new JLabel("MATRÍCULA DE ALUMNOS");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel.setBounds(190, 10, 220, 32);
+		contentPane.add(lblNewLabel);
+		
+		lblNMatricula = new JLabel("N° Matricula");
+		lblNMatricula.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNMatricula.setBounds(20, 57, 85, 32);
+		contentPane.add(lblNMatricula);
+		
+		textMatricula = new JTextField();
+		textMatricula.setEditable(false);
+		textMatricula.setBounds(115, 65, 110, 20);
+		contentPane.add(textMatricula);
+		
+		lblCodalumno = new JLabel("CodAlumno");
+		lblCodalumno.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCodalumno.setBounds(20, 99, 85, 32);
+		contentPane.add(lblCodalumno);
 
-        setTitle("Módulo de Matrícula - Colegio Miguel Grau");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 600, 480);
-        
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
+		textCod = new JTextField();
+		textCod.setBounds(115, 107, 110, 20);
+		contentPane.add(textCod);
+		textCod.setColumns(10);
 
-        // Título de la interfaz
-        JLabel lblTitulo = new JLabel("GESTIÓN DE MATRÍCULA");
-        lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 16));
-        lblTitulo.setBounds(200, 15, 230, 25);
-        contentPane.add(lblTitulo);
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnBuscar.setBounds(235, 106, 85, 22);
+		btnBuscar.addActionListener(this);
+		contentPane.add(btnBuscar);
+		
+		lblGradoSeccion = new JLabel("Grado / Sección");
+		lblGradoSeccion.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblGradoSeccion.setBounds(20, 141, 103, 32);
+		contentPane.add(lblGradoSeccion);
+		
+		comboBox = new JComboBox<String>();
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {
+			"1 - A", "1 - B", "1 - C", 
+			"2 - A", "2 - B", "2 - C", 
+			"3 - A", "3 - B", "3 - C", 
+			"4 - A", "4 - B", "4 - C", 
+			"5 - A", "5 - B", "5 - C", 
+			"6 - A", "6 - B", "6 - C"
+		}));
+		comboBox.setBackground(new Color(255, 255, 255));
+		comboBox.setFont(new Font("Tahoma", Font.BOLD, 12));
+		comboBox.setBounds(125, 147, 100, 23);
+		comboBox.addActionListener(this);
+		contentPane.add(comboBox);
 
-        // --- SECCIÓN DE BÚSQUEDA ---
-        JLabel lblDniBuscar = new JLabel("DNI del Alumno:");
-        lblDniBuscar.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblDniBuscar.setBounds(30, 55, 110, 20);
-        contentPane.add(lblDniBuscar);
+		lblFecha = new JLabel("Fecha");
+		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblFecha.setBounds(330, 57, 50, 32);
+		contentPane.add(lblFecha);
 
-        txtBuscarDni = new JTextField();
-        txtBuscarDni.setBounds(145, 55, 130, 22);
-        contentPane.add(txtBuscarDni);
-        txtBuscarDni.setColumns(10);
+		textFecha = new JTextField();
+		textFecha.setEditable(false);
+		textFecha.setBounds(380, 65, 80, 20);
+		contentPane.add(textFecha);
+		
+		lblHora = new JLabel("Hora");
+		lblHora.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblHora.setBounds(470, 57, 40, 32);
+		contentPane.add(lblHora);
+		
+		textHora = new JTextField();
+		textHora.setEditable(false);
+		textHora.setBounds(510, 65, 75, 20);
+		contentPane.add(textHora);
+		
+		lblAlumno = new JLabel("Alumno");
+		lblAlumno.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblAlumno.setBounds(330, 99, 60, 32);
+		contentPane.add(lblAlumno);
 
-        JButton btnBuscar = new JButton("Buscar");
-        btnBuscar.setBounds(285, 54, 90, 24);
-        contentPane.add(btnBuscar);
+		textAlumno = new JTextField();
+		textAlumno.setEditable(false);
+		textAlumno.setBounds(390, 107, 195, 20);
+		contentPane.add(textAlumno);
+		
+		lblVacante = new JLabel("Vacante");
+		lblVacante.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblVacante.setBounds(240, 141, 60, 32);
+		contentPane.add(lblVacante);
+		
+		textVacante = new JTextField();
+		textVacante.setEditable(false);
+		textVacante.setBounds(300, 149, 60, 20);
+		contentPane.add(textVacante);
+		
+		btnMatricular = new JButton("Matricular");
+		btnMatricular.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnMatricular.setBounds(490, 194, 95, 32);
+		btnMatricular.addActionListener(this);
+		contentPane.add(btnMatricular);
+		
+		btnAnular = new JButton("Anular");
+		btnAnular.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnAnular.setBounds(490, 235, 95, 25);
+		btnAnular.addActionListener(this);
+		contentPane.add(btnAnular);
+		
+		btnBorrar = new JButton("Borrar");
+		btnBorrar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnBorrar.setBounds(490, 270, 95, 25);
+		btnBorrar.addActionListener(this);
+		contentPane.add(btnBorrar);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(20, 185, 460, 160);
+		contentPane.add(scrollPane);
 
-        JSeparator separator = new JSeparator();
-        separator.setBounds(20, 90, 545, 10);
-        contentPane.add(separator);
+		textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
 
-        // --- CAMPOS DE DETALLE DEL ALUMNO ---
-        JLabel lblCodigo = new JLabel("Código:");
-        lblCodigo.setBounds(30, 110, 80, 20);
-        contentPane.add(lblCodigo);
+		// Métodos de inicialización
+		nuevoRegistro();
+		actualizarVacantes();
+		listarMatriculas();
+	}
 
-        txtCodigo = new JTextField();
-        txtCodigo.setEditable(false);
-        txtCodigo.setBounds(120, 110, 140, 20);
-        contentPane.add(txtCodigo);
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnBuscar) {
+			buscarAlumno();
+		} else if (e.getSource() == btnMatricular) {
+			matricularAlumno();
+		} else if (e.getSource() == btnAnular) {
+			anularMatricula();
+		} else if (e.getSource() == btnBorrar) {
+			limpiarCampos();
+		} else if (e.getSource() == comboBox) {
+			actualizarVacantes();
+		}
+	}
 
-        JLabel lblGrado = new JLabel("Grado:");
-        lblGrado.setBounds(290, 110, 80, 20);
-        contentPane.add(lblGrado);
+	// 1. Relación: Buscar Alumno usando la clase Alumno y ArregloAlumnos
+	private void buscarAlumno() {
+		try {
+			if (textCod.getText().trim().isEmpty()) {
+				JOptionPane.showMessageDialog(this, "Ingrese el código de alumno.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			int cod = Integer.parseInt(textCod.getText().trim());
+			
+			// Se consulta la lista y retorna un objeto de tipo Alumno
+			Alumno a = aa.buscar(cod);
 
-        txtGrado = new JTextField();
-        txtGrado.setEditable(false);
-        txtGrado.setBounds(380, 110, 180, 20);
-        contentPane.add(txtGrado);
+			if (a != null) {
+				// Relación: Se extraen los atributos del objeto con sus getters
+				textAlumno.setText(a.getNombres() + " " + a.getApellidos());
+				if (a.getEstado() == 1) {
+					JOptionPane.showMessageDialog(this, "El alumno ya se encuentra MATRICULADO.", "Aviso", JOptionPane.WARNING_MESSAGE);
+				} else if (a.getEstado() == 2) {
+					JOptionPane.showMessageDialog(this, "El alumno se encuentra RETIRADO.", "Aviso", JOptionPane.WARNING_MESSAGE);
+				}
+			} else {
+				JOptionPane.showMessageDialog(this, "Código de alumno no registrado en el sistema.", "Error", JOptionPane.ERROR_MESSAGE);
+				textAlumno.setText("");
+			}
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(this, "El código debe ser un número entero válido.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
 
-        JLabel lblNombres = new JLabel("Nombres:");
-        lblNombres.setBounds(30, 145, 80, 20);
-        contentPane.add(lblNombres);
+	// 2. Relación: Registrar Matrícula y cambiar Estado de Alumno a 1
+	private void matricularAlumno() {
+		try {
+			if (textAlumno.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(this, "Primero debe buscar un alumno registrado.", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 
-        txtNombres = new JTextField();
-        txtNombres.setEditable(false);
-        txtNombres.setBounds(120, 145, 140, 20);
-        contentPane.add(txtNombres);
+			int codAlumno = Integer.parseInt(textCod.getText().trim());
+			Alumno a = aa.buscar(codAlumno);
 
-        JLabel lblApellidos = new JLabel("Apellidos:");
-        lblApellidos.setBounds(290, 145, 80, 20);
-        contentPane.add(lblApellidos);
+			if (a.getEstado() != 0) {
+				JOptionPane.showMessageDialog(this, "Solo se pueden matricular alumnos en estado 0 (Registrado).", "Advertencia", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
 
-        txtApellidos = new JTextField();
-        txtApellidos.setEditable(false);
-        txtApellidos.setBounds(380, 145, 180, 20);
-        contentPane.add(txtApellidos);
+			int vacantesDisponibles = Integer.parseInt(textVacante.getText());
+			if (vacantesDisponibles <= 0) {
+				JOptionPane.showMessageDialog(this, "No quedan vacantes disponibles en este grado/sección.", "Aforo Lleno", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 
-        JLabel lblEdad = new JLabel("Edad:");
-        lblEdad.setBounds(30, 180, 80, 20);
-        contentPane.add(lblEdad);
+			int numMatricula = Integer.parseInt(textMatricula.getText());
+			int codGrado = 1001 + comboBox.getSelectedIndex();
+			String fecha = textFecha.getText();
+			String hora = textHora.getText(); // Corregido: se usa textHora en lugar de textField_6
 
-        txtEdad = new JTextField();
-        txtEdad.setEditable(false);
-        txtEdad.setBounds(120, 180, 140, 20);
-        contentPane.add(txtEdad);
+			// Instanciación de la clase Matricula
+			Matricula m = new Matricula(numMatricula, codAlumno, codGrado, fecha, hora);
+			am.adicionar(m);
 
-        JLabel lblTelefono = new JLabel("Teléfono:");
-        lblTelefono.setBounds(290, 180, 80, 20);
-        contentPane.add(lblTelefono);
+			// Actualización del estado del objeto Alumno
+			a.setEstado(1); // 1 = Matriculado
+			aa.guardar(); // Persistencia en alumnos.txt
 
-        txtTelefono = new JTextField();
-        txtTelefono.setEditable(false);
-        txtTelefono.setBounds(380, 180, 180, 20);
-        contentPane.add(txtTelefono);
+			JOptionPane.showMessageDialog(this, "¡Matrícula N° " + numMatricula + " realizada con éxito!");
+			
+			nuevoRegistro();
+			actualizarVacantes();
+			listarMatriculas();
 
-        JLabel lblApoderado = new JLabel("Apoderado:");
-        lblApoderado.setBounds(30, 215, 80, 20);
-        contentPane.add(lblApoderado);
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, "Error al registrar la matrícula.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
 
-        txtApoderado = new JTextField();
-        txtApoderado.setEditable(false);
-        txtApoderado.setBounds(120, 215, 440, 20);
-        contentPane.add(txtApoderado);
+	private void anularMatricula() {
+		String numStr = JOptionPane.showInputDialog(this, "Ingrese el N° de Matrícula a anular:");
+		if (numStr != null && !numStr.trim().isEmpty()) {
+			try {
+				int numMat = Integer.parseInt(numStr.trim());
+				Matricula m = am.buscar(numMat);
 
-        // --- ESTADO DE MATRÍCULA ---
-        JLabel lblEstado = new JLabel("Estado Matrícula:");
-        lblEstado.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblEstado.setBounds(30, 260, 120, 20);
-        contentPane.add(lblEstado);
+				if (m != null) {
+					Alumno a = aa.buscar(m.getCodAlumno());
+					if (a != null) {
+						a.setEstado(0); // El alumno regresa a estar Registrado
+						aa.guardar();
+					}
+					am.eliminar(m);
+					JOptionPane.showMessageDialog(this, "Matrícula N° " + numMat + " anulada correctamente.");
+					
+					nuevoRegistro();
+					actualizarVacantes();
+					listarMatriculas();
+				} else {
+					JOptionPane.showMessageDialog(this, "No se encontró la matrícula ingresada.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, "Número de matrícula inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
 
-        cbEstadoMatricula = new JComboBox<>(new String[] { "-- Seleccionar --", "MATRICULADO", "NO MATRICULADO", "TRASLADADO", "RETIRADO" });
-        cbEstadoMatricula.setBounds(150, 260, 180, 22);
-        contentPane.add(cbEstadoMatricula);
+	private void limpiarCampos() {
+		textCod.setText("");
+		textAlumno.setText("");
+		textCod.requestFocus();
+	}
 
-        // --- BOTONES DE ACCIÓN ---
-        JButton btnGuardar = new JButton("Guardar Matrícula");
-        btnGuardar.setBounds(130, 340, 150, 35);
-        contentPane.add(btnGuardar);
+	private void nuevoRegistro() {
+		textMatricula.setText(String.valueOf(am.numeroCorrelativo()));
+		textFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+		textHora.setText(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+		textCod.setText("");
+		textAlumno.setText("");
+	}
 
-        JButton btnVolver = new JButton("Volver al Menú");
-        btnVolver.setBounds(300, 340, 140, 35);
-        contentPane.add(btnVolver);
+	private void actualizarVacantes() {
+		int capacidadMaxima = 30; // Vacantes por aula
+		int codGradoSeleccionado = 1001 + comboBox.getSelectedIndex();
+		int ocupados = am.contarPorGrado(codGradoSeleccionado);
+		int vacantes = capacidadMaxima - ocupados;
+		textVacante.setText(String.valueOf(vacantes));
+	}
 
-        // --- EVENTOS DE BOTONES ---
-
-        // Evento de Búsqueda
-        btnBuscar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                buscarAlumno();
-            }
-        });
-
-        // Evento Guardar / Actualizar
-        btnGuardar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                guardarMatricula();
-            }
-        });
-
-        // Evento Volver
-        btnVolver.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ModuloInicio inicio = new ModuloInicio();
-                inicio.setLocationRelativeTo(null);
-                inicio.setVisible(true);
-                dispose();
-            }
-        });
-    }
-
-    /**
-     * Busca los datos del alumno en el archivo a través del controlador
-     */
-    private void buscarAlumno() {
-        String dni = txtBuscarDni.getText().trim();
-
-        if (dni.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor ingrese un número de DNI para buscar.", "Atención", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        Alumno alumno = alumnoController.buscarPorDni(dni);
-
-        if (alumno != null) {
-            txtCodigo.setText(alumno.getCodigo());
-            txtNombres.setText(alumno.getNombre());
-            txtApellidos.setText(alumno.getApellidos());
-            txtEdad.setText(String.valueOf(alumno.getEdad()));
-            txtGrado.setText(alumno.getGradoAlQuePasa());
-            txtTelefono.setText(alumno.getTelefono());
-            
-            // Preferimos celular de apoderado o nombre del papá
-            String datosApoderado = alumno.getNombrePapa() != null && !alumno.getNombrePapa().isEmpty() 
-                ? alumno.getNombrePapa() 
-                : alumno.getNombreMama();
-            txtApoderado.setText(datosApoderado + " (Tel: " + alumno.getCelularApoderado() + ")");
-
-            // Seleccionar estado de matrícula si coincide
-            if (alumno.getEstadoMatricula() != null) {
-                cbEstadoMatricula.setSelectedItem(alumno.getEstadoMatricula().toUpperCase());
-            } else {
-                cbEstadoMatricula.setSelectedIndex(0);
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(this, "No se encontró ningún alumno con el DNI: " + dni, "Alumno no encontrado", JOptionPane.INFORMATION_MESSAGE);
-            limpiarCampos();
-        }
-    }
-
-    private void guardarMatricula() {
-        if (txtCodigo.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe buscar un alumno válido antes de guardar la matrícula.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (cbEstadoMatricula.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Por favor seleccione un estado de matrícula válido.", "Atención", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        String nuevoEstado = (String) cbEstadoMatricula.getSelectedItem();
-        JOptionPane.showMessageDialog(this, "¡Matrícula registrada exitosamente como " + nuevoEstado + "!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    private void limpiarCampos() {
-        txtCodigo.setText("");
-        txtNombres.setText("");
-        txtApellidos.setText("");
-        txtEdad.setText("");
-        txtGrado.setText("");
-        txtTelefono.setText("");
-        txtApoderado.setText("");
-        cbEstadoMatricula.setSelectedIndex(0);
-    }
+	private void listarMatriculas() {
+		textArea.setText("");
+		textArea.append("N° MATRÍCULA\tCOD. ALUMNO\tFECHA\t\tHORA\n");
+		textArea.append("-----------------------------------------------------------------------------------\n");
+		for (int i = 0; i < am.tamaño(); i++) {
+			Matricula m = am.obtener(i);
+			textArea.append(m.getNumMatricula() + "\t" + 
+							m.getCodAlumno() + "\t" + 
+							m.getFecha() + "\t" + 
+							m.getHora() + "\n");
+		}
+	}
 }
