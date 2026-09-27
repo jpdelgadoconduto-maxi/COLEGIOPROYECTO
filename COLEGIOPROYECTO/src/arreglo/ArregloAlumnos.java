@@ -12,9 +12,9 @@ public class ArregloAlumnos {
         alumnos = new ArrayList<>();
         cargar();
         
-        // Si el archivo está vacío, agrega alumnos de prueba automáticamente
+        // Si el archivo estï¿½ vacï¿½o, agrega alumnos de prueba automï¿½ticamente
         if (alumnos.isEmpty()) {
-            adicionar(new Alumno(202610001, "Juan Carlos", "Pérez Gómez", "78451236", 7, 987654321, 0));
+            adicionar(new Alumno(202610001, "Juan Carlos", "Pï¿½rez Gï¿½mez", "78451236", 7, 987654321, 0));
             adicionar(new Alumno(202610002, "Maria Fe", "Torres Lima", "76123498", 8, 912345678, 0));
             adicionar(new Alumno(202610003, "Lucas Mateo", "Ramos Quispe", "74859612", 6, 954321876, 0));
         }
@@ -25,7 +25,7 @@ public class ArregloAlumnos {
         guardar();
     }
 
-    public int tamaño() {
+    public int tamaÃ±o() {
         return alumnos.size();
     }
 

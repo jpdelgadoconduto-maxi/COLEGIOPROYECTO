@@ -72,7 +72,7 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 	}
 
 	public ModuloMatricula() {
-		setTitle("Sistema de Matrícula Escolar - Nivel Primaria");
+		setTitle("Sistema de Matrï¿½cula Escolar - Nivel Primaria");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 615, 399);
 		setLocationRelativeTo(null);
@@ -82,12 +82,12 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblNewLabel = new JLabel("MATRÍCULA DE ALUMNOS");
+		lblNewLabel = new JLabel("MATRï¿½CULA DE ALUMNOS");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setBounds(190, 10, 220, 32);
 		contentPane.add(lblNewLabel);
 		
-		lblNMatricula = new JLabel("N° Matricula");
+		lblNMatricula = new JLabel("Nï¿½ Matricula");
 		lblNMatricula.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNMatricula.setBounds(20, 57, 85, 32);
 		contentPane.add(lblNMatricula);
@@ -113,7 +113,7 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		btnBuscar.addActionListener(this);
 		contentPane.add(btnBuscar);
 		
-		lblGradoSeccion = new JLabel("Grado / Sección");
+		lblGradoSeccion = new JLabel("Grado / Secciï¿½n");
 		lblGradoSeccion.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblGradoSeccion.setBounds(20, 141, 103, 32);
 		contentPane.add(lblGradoSeccion);
@@ -198,7 +198,7 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
 
-		// Métodos de inicialización
+		// Mï¿½todos de inicializaciï¿½n
 		nuevoRegistro();
 		actualizarVacantes();
 		listarMatriculas();
@@ -219,11 +219,11 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		}
 	}
 
-	// 1. Relación: Buscar Alumno usando la clase Alumno y ArregloAlumnos
+	// 1. Relaciï¿½n: Buscar Alumno usando la clase Alumno y ArregloAlumnos
 	private void buscarAlumno() {
 		try {
 			if (textCod.getText().trim().isEmpty()) {
-				JOptionPane.showMessageDialog(this, "Ingrese el código de alumno.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Ingrese el cï¿½digo de alumno.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 			int cod = Integer.parseInt(textCod.getText().trim());
@@ -232,7 +232,7 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 			Alumno a = aa.buscar(cod);
 
 			if (a != null) {
-				// Relación: Se extraen los atributos del objeto con sus getters
+				// Relaciï¿½n: Se extraen los atributos del objeto con sus getters
 				textAlumno.setText(a.getNombres() + " " + a.getApellidos());
 				if (a.getEstado() == 1) {
 					JOptionPane.showMessageDialog(this, "El alumno ya se encuentra MATRICULADO.", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -240,15 +240,15 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 					JOptionPane.showMessageDialog(this, "El alumno se encuentra RETIRADO.", "Aviso", JOptionPane.WARNING_MESSAGE);
 				}
 			} else {
-				JOptionPane.showMessageDialog(this, "Código de alumno no registrado en el sistema.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Cï¿½digo de alumno no registrado en el sistema.", "Error", JOptionPane.ERROR_MESSAGE);
 				textAlumno.setText("");
 			}
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El código debe ser un número entero válido.", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "El cï¿½digo debe ser un nï¿½mero entero vï¿½lido.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	// 2. Relación: Registrar Matrícula y cambiar Estado de Alumno a 1
+	// 2. Relaciï¿½n: Registrar Matrï¿½cula y cambiar Estado de Alumno a 1
 	private void matricularAlumno() {
 		try {
 			if (textAlumno.getText().isEmpty()) {
@@ -266,7 +266,7 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 
 			int vacantesDisponibles = Integer.parseInt(textVacante.getText());
 			if (vacantesDisponibles <= 0) {
-				JOptionPane.showMessageDialog(this, "No quedan vacantes disponibles en este grado/sección.", "Aforo Lleno", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "No quedan vacantes disponibles en este grado/secciï¿½n.", "Aforo Lleno", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
@@ -275,27 +275,27 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 			String fecha = textFecha.getText();
 			String hora = textHora.getText(); // Corregido: se usa textHora en lugar de textField_6
 
-			// Instanciación de la clase Matricula
+			// Instanciaciï¿½n de la clase Matricula
 			Matricula m = new Matricula(numMatricula, codAlumno, codGrado, fecha, hora);
 			am.adicionar(m);
 
-			// Actualización del estado del objeto Alumno
+			// Actualizaciï¿½n del estado del objeto Alumno
 			a.setEstado(1); // 1 = Matriculado
 			aa.guardar(); // Persistencia en alumnos.txt
 
-			JOptionPane.showMessageDialog(this, "¡Matrícula N° " + numMatricula + " realizada con éxito!");
+			JOptionPane.showMessageDialog(this, "ï¿½Matrï¿½cula Nï¿½ " + numMatricula + " realizada con ï¿½xito!");
 			
 			nuevoRegistro();
 			actualizarVacantes();
 			listarMatriculas();
 
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, "Error al registrar la matrícula.", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Error al registrar la matrï¿½cula.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	private void anularMatricula() {
-		String numStr = JOptionPane.showInputDialog(this, "Ingrese el N° de Matrícula a anular:");
+		String numStr = JOptionPane.showInputDialog(this, "Ingrese el Nï¿½ de Matrï¿½cula a anular:");
 		if (numStr != null && !numStr.trim().isEmpty()) {
 			try {
 				int numMat = Integer.parseInt(numStr.trim());
@@ -308,16 +308,16 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 						aa.guardar();
 					}
 					am.eliminar(m);
-					JOptionPane.showMessageDialog(this, "Matrícula N° " + numMat + " anulada correctamente.");
+					JOptionPane.showMessageDialog(this, "Matrï¿½cula Nï¿½ " + numMat + " anulada correctamente.");
 					
 					nuevoRegistro();
 					actualizarVacantes();
 					listarMatriculas();
 				} else {
-					JOptionPane.showMessageDialog(this, "No se encontró la matrícula ingresada.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "No se encontrï¿½ la matrï¿½cula ingresada.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, "Número de matrícula inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Nï¿½mero de matrï¿½cula invï¿½lido.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -346,9 +346,9 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 
 	private void listarMatriculas() {
 		textArea.setText("");
-		textArea.append("N° MATRÍCULA\tCOD. ALUMNO\tFECHA\t\tHORA\n");
+		textArea.append("Nro MATRICULA\tCOD. ALUMNO\tFECHA\t\tHORA\n");
 		textArea.append("-----------------------------------------------------------------------------------\n");
-		for (int i = 0; i < am.tamaño(); i++) {
+		for (int i = 0; i < am.tamaÃ±o(); i++) {
 			Matricula m = am.obtener(i);
 			textArea.append(m.getNumMatricula() + "\t" + 
 							m.getCodAlumno() + "\t" + 

@@ -13,12 +13,12 @@ public class ArregloGrados {
         cargar();
         if (grados.isEmpty()) {
             // Cargar vacantes iniciales para primaria
-            adicionar(new Grado(1001, "1° Grado", "A", 30, "Primaria"));
-            adicionar(new Grado(1002, "2° Grado", "A", 30, "Primaria"));
-            adicionar(new Grado(1003, "3° Grado", "A", 30, "Primaria"));
-            adicionar(new Grado(1004, "4° Grado", "A", 30, "Primaria"));
-            adicionar(new Grado(1005, "5° Grado", "A", 30, "Primaria"));
-            adicionar(new Grado(1006, "6° Grado", "A", 30, "Primaria"));
+            adicionar(new Grado(1001, "1ï¿½ Grado", "A", 30, "Primaria"));
+            adicionar(new Grado(1002, "2ï¿½ Grado", "A", 30, "Primaria"));
+            adicionar(new Grado(1003, "3ï¿½ Grado", "A", 30, "Primaria"));
+            adicionar(new Grado(1004, "4ï¿½ Grado", "A", 30, "Primaria"));
+            adicionar(new Grado(1005, "5ï¿½ Grado", "A", 30, "Primaria"));
+            adicionar(new Grado(1006, "6ï¿½ Grado", "A", 30, "Primaria"));
         }
     }
 
@@ -27,7 +27,7 @@ public class ArregloGrados {
         guardar();
     }
 
-    public int tamaño() {
+    public int tamaÃ±o() {
         return grados.size();
     }
 
