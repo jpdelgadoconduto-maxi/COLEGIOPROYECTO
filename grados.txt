@@ -1,0 +1,6 @@
+1001;1° Grado;A;30;Primaria
+1002;2° Grado;A;30;Primaria
+1003;3° Grado;A;30;Primaria
+1004;4° Grado;A;30;Primaria
+1005;5° Grado;A;30;Primaria
+1006;6° Grado;A;30;Primaria
