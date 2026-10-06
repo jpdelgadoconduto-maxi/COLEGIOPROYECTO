@@ -76,11 +76,7 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 	}
 
 	public ModuloMatricula() {
-<<<<<<< HEAD
 		setTitle("Sistema de Matrícula Escolar - Nivel Primaria");
-=======
-		setTitle("Sistema de Matr�cula Escolar - Nivel Primaria");
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 680, 530);
 		setLocationRelativeTo(null);
@@ -89,7 +85,6 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-<<<<<<< HEAD
 
 		// Título
 		lblTitulo = new JLabel("MATRÍCULA DE ALUMNOS");
@@ -99,15 +94,6 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 
 		// N° Matrícula
 		lblNMatricula = new JLabel("N° Matrícula");
-=======
-		
-		lblNewLabel = new JLabel("MATRICULA DE ALUMNOS");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(190, 10, 220, 32);
-		contentPane.add(lblNewLabel);
-		
-		lblNMatricula = new JLabel("N Matricula");
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
 		lblNMatricula.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNMatricula.setBounds(20, 45, 85, 25);
 		contentPane.add(lblNMatricula);
@@ -123,7 +109,6 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		lblFecha.setBounds(230, 45, 45, 25);
 		contentPane.add(lblFecha);
 
-<<<<<<< HEAD
 		textFecha = new JTextField();
 		textFecha.setEditable(false);
 		textFecha.setBounds(280, 47, 85, 22);
@@ -189,15 +174,6 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 
 		// Grado / Sección y Vacantes
 		lblGradoSeccion = new JLabel("Grado / Sección");
-=======
-		btnBuscar = new JButton("Buscar");
-		btnBuscar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnBuscar.setBounds(235, 106, 85, 22);
-		btnBuscar.addActionListener(this);
-		contentPane.add(btnBuscar);
-		
-		lblGradoSeccion = new JLabel("Grado / Seccion");
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
 		lblGradoSeccion.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblGradoSeccion.setBounds(240, 150, 110, 25);
 		contentPane.add(lblGradoSeccion);
@@ -256,12 +232,8 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 
-<<<<<<< HEAD
 		// Inicialización leyendo de alumnos.txt
 		cargarCorrelativo();
-=======
-		// M�todos de inicializaci�n
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
 		nuevoRegistro();
 		actualizarVacantes();
 		listarMatriculas();
@@ -280,39 +252,6 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	// 1. Relaci�n: Buscar Alumno usando la clase Alumno y ArregloAlumnos
-	private void buscarAlumno() {
-		try {
-			if (textCod.getText().trim().isEmpty()) {
-				JOptionPane.showMessageDialog(this, "Ingrese el c�digo de alumno.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-			int cod = Integer.parseInt(textCod.getText().trim());
-			
-			// Se consulta la lista y retorna un objeto de tipo Alumno
-			Alumno a = aa.buscar(cod);
-
-			if (a != null) {
-				// Relaci�n: Se extraen los atributos del objeto con sus getters
-				textAlumno.setText(a.getNombres() + " " + a.getApellidos());
-				if (a.getEstado() == 1) {
-					JOptionPane.showMessageDialog(this, "El alumno ya se encuentra MATRICULADO.", "Aviso", JOptionPane.WARNING_MESSAGE);
-				} else if (a.getEstado() == 2) {
-					JOptionPane.showMessageDialog(this, "El alumno se encuentra RETIRADO.", "Aviso", JOptionPane.WARNING_MESSAGE);
-				}
-			} else {
-				JOptionPane.showMessageDialog(this, "C�digo de alumno no registrado en el sistema.", "Error", JOptionPane.ERROR_MESSAGE);
-				textAlumno.setText("");
-			}
-		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El c�digo debe ser un n�mero entero v�lido.", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	// 2. Relaci�n: Registrar Matr�cula y cambiar Estado de Alumno a 1
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
 	private void matricularAlumno() {
 		String dniAlu = textDniAlumno.getText().trim();
 		String nomAlu = textAlumno.getText().trim();
@@ -320,13 +259,11 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		String nomApo = textApoderado.getText().trim();
 		String telefono = textTelefono.getText().trim();
 
-		// 1. Validar que no haya campos vacíos
 		if (dniAlu.isEmpty() || nomAlu.isEmpty() || dniApo.isEmpty() || nomApo.isEmpty() || telefono.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Por favor complete todos los campos, incluyendo el Teléfono.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
-		// 2. Validar disponibilidad de vacantes
 		int vacantes = Integer.parseInt(textVacante.getText());
 		if (vacantes <= 0) {
 			JOptionPane.showMessageDialog(this, "No quedan vacantes disponibles en esta sección.", "Aforo Completo", JOptionPane.ERROR_MESSAGE);
@@ -338,95 +275,34 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		String hora = textHora.getText();
 		String gradoSeccion = (String) comboBox.getSelectedItem();
 
-		// 3. Cadena para guardar en el archivo alumnos.txt
+		// Guardado en archivo
 		String lineaGuardado = numMatricula + ";" + fecha + ";" + hora + ";" + dniAlu + ";" + nomAlu + ";" + dniApo + ";" + nomApo + ";" + telefono + ";" + gradoSeccion;
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO_ALUMNOS, true))) {
-			// Escribir en el archivo alumnos.txt
 			bw.write(lineaGuardado);
 			bw.newLine();
 
-			// Si el JTextArea está vacío o recién inicia, le agregamos la cabecera de la tabla
-			if (textArea.getText().trim().isEmpty()) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(String.format("%-8s %-10s %-8s %-18s %-10s\n", "NRO MAT", "DNI ALU", "GRADO", "ALUMNO", "TELÉFONO"));
-				sb.append("----------------------------------------------------------------------------------\n");
-				textArea.setText(sb.toString());
-			}
-
-<<<<<<< HEAD
-			// 4. Formatear y agregar la nueva fila directamente al JTextArea de forma inmediata
-			String nuevaFila = String.format("%-8s %-10s %-8s %-18s %-10s\n",
-					numMatricula, 
-					dniAlu, 
-					gradoSeccion, 
-					nomAlu.length() > 16 ? nomAlu.substring(0, 16) : nomAlu,
-					telefono);
-=======
-			int codAlumno = Integer.parseInt(textCod.getText().trim());
-			Alumno a = aa.buscar(codAlumno);
-
-			if (a.getEstado() != 0) {
-				JOptionPane.showMessageDialog(this, "Solo se pueden matricular alumnos en estado 0 (Registrado).", "Advertencia", JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-
-			int vacantesDisponibles = Integer.parseInt(textVacante.getText());
-			if (vacantesDisponibles <= 0) {
-				JOptionPane.showMessageDialog(this, "No quedan vacantes disponibles en este grado/secci�n.", "Aforo Lleno", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-
-			int numMatricula = Integer.parseInt(textMatricula.getText());
-			int codGrado = 1001 + comboBox.getSelectedIndex();
-			String fecha = textFecha.getText();
-			String hora = textHora.getText(); // Corregido: se usa textHora en lugar de textField_6
-
-			// Instanciaci�n de la clase Matricula
-			Matricula m = new Matricula(numMatricula, codAlumno, codGrado, fecha, hora);
-			am.adicionar(m);
-
-			// Actualizaci�n del estado del objeto Alumno
-			a.setEstado(1); // 1 = Matriculado
-			aa.guardar(); // Persistencia en alumnos.txt
-
-			JOptionPane.showMessageDialog(this, "�Matr�cula N� " + numMatricula + " realizada con �xito!");
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
-			
-			textArea.append(nuevaFila); // Visualización inmediata en pantalla
-
 			JOptionPane.showMessageDialog(this, "¡Matrícula N° " + numMatricula + " registrada exitosamente!");
 
-			// 5. Actualización de estado y vacantes
 			correlativo++;
 			limpiarCampos();
 			nuevoRegistro();
 			actualizarVacantes();
+			
+			// Actualiza el JTextArea inmediatamente
+			listarMatriculas();
 
 		} catch (Exception ex) {
-<<<<<<< HEAD
 			JOptionPane.showMessageDialog(this, "Error al escribir en " + ARCHIVO_ALUMNOS + ": " + ex.getMessage(), "Error I/O", JOptionPane.ERROR_MESSAGE);
-=======
-			JOptionPane.showMessageDialog(this, "Error al registrar la matr�cula.", "Error", JOptionPane.ERROR_MESSAGE);
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
 		}
 	}
 
 	private void anularMatricula() {
-<<<<<<< HEAD
 		String numStr = JOptionPane.showInputDialog(this, "Ingrese el N° de Matrícula a anular:");
 		if (numStr == null || numStr.trim().isEmpty()) {
 			return;
 		}
-=======
-		String numStr = JOptionPane.showInputDialog(this, "Ingrese el N� de Matr�cula a anular:");
-		if (numStr != null && !numStr.trim().isEmpty()) {
-			try {
-				int numMat = Integer.parseInt(numStr.trim());
-				Matricula m = am.buscar(numMat);
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
 
-<<<<<<< HEAD
 		String targetMatricula = numStr.trim();
 		File archivo = new File(ARCHIVO_ALUMNOS);
 
@@ -444,32 +320,9 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 				String[] datos = linea.split(";");
 				if (datos.length > 0 && datos[0].equals(targetMatricula)) {
 					encontrado = true;
-=======
-				if (m != null) {
-					Alumno a = aa.buscar(m.getCodAlumno());
-					if (a != null) {
-						a.setEstado(0); // El alumno regresa a estar Registrado
-						aa.guardar();
-					}
-					am.eliminar(m);
-					JOptionPane.showMessageDialog(this, "Matr�cula N� " + numMat + " anulada correctamente.");
-					
-					nuevoRegistro();
-					actualizarVacantes();
-					listarMatriculas();
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
 				} else {
-<<<<<<< HEAD
 					lineasConservadas.add(linea);
-=======
-					JOptionPane.showMessageDialog(this, "No se encontr� la matr�cula ingresada.", "Error", JOptionPane.ERROR_MESSAGE);
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
 				}
-<<<<<<< HEAD
-=======
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, "N�mero de matr�cula inv�lido.", "Error", JOptionPane.ERROR_MESSAGE);
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
 			}
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, "Error al leer " + ARCHIVO_ALUMNOS, "Error", JOptionPane.ERROR_MESSAGE);
@@ -553,67 +406,36 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 
 	// Carga y muestra todos los registros del TXT en el JTextArea
 	private void listarMatriculas() {
-<<<<<<< HEAD
-	    // 1. Limpiar el contenido actual del JTextArea
-	    textArea.setText("");
-	    
-	    // 2. Establecer fuente Monospaced para que los anchos de columna se alineen correctamente
-	    textArea.setFont(new Font("Monospaced", Font.PLAIN, 11));
-
-	    StringBuilder sb = new StringBuilder();
-	    
-	    // Cabecera de la tabla que se verá en el área de texto
-	    sb.append(String.format("%-8s %-10s %-8s %-20s %-10s\n", "NRO MAT", "DNI ALU", "GRADO", "ALUMNO", "TELÉFONO"));
-	    sb.append("----------------------------------------------------------------------------------\n");
-
-	    File file = new File(ARCHIVO_ALUMNOS);
-
-	    if (file.exists()) {
-	        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-	            String linea;
-	            while ((linea = br.readLine()) != null) {
-	                if (linea.trim().isEmpty()) continue; // Salta líneas vacías
-
-	                String[] datos = linea.split(";");
-
-	                // Verifica que la línea tenga la estructura adecuada
-	                if (datos.length >= 8) {
-	                    String numMat   = datos[0];
-	                    String dniAlu   = datos[3];
-	                    String nomAlu   = datos[4];
-	                    String telefono = (datos.length >= 9) ? datos[7] : "S/N";
-	                    String grado    = datos[datos.length - 1];
-
-	                    // Recortar el nombre si es muy largo para no desencajar la tabla
-	                    if (nomAlu.length() > 18) {
-	                        nomAlu = nomAlu.substring(0, 18);
-	                    }
-
-	                    // Formatear la fila
-	                    sb.append(String.format("%-8s %-10s %-8s %-20s %-10s\n", 
-	                            numMat, dniAlu, grado, nomAlu, telefono));
-	                }
-	            }
-	        } catch (Exception e) {
-	            sb.append("Error al leer el archivo de matrículas.");
-	        }
-	    } else {
-	        sb.append("No hay registros de matrícula guardados aún.\n");
-	    }
-
-	    // 3. Insertar todo el texto generado en el JTextArea
-	    textArea.setText(sb.toString());
-=======
 		textArea.setText("");
-		textArea.append("N MATRICULA\tCOD. ALUMNO\tFECHA\t\tHORA\n");
-		textArea.append("-----------------------------------------------------------------------------------\n");
-		for (int i = 0; i < am.tamaño(); i++) {
-			Matricula m = am.obtener(i);
-			textArea.append(m.getNumMatricula() + "\t" + 
-							m.getCodAlumno() + "\t" + 
-							m.getFecha() + "\t" + 
-							m.getHora() + "\n");
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format("%-8s %-10s %-8s %-18s %-10s\n", "NRO MAT", "DNI ALU", "GRADO", "ALUMNO", "TELÉFONO"));
+		sb.append("----------------------------------------------------------------------------------\n");
+
+		File file = new File(ARCHIVO_ALUMNOS);
+		if (file.exists()) {
+			try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+				String linea;
+				while ((linea = br.readLine()) != null) {
+					if (linea.trim().isEmpty()) continue;
+					
+					String[] datos = linea.split(";");
+					// Funciona tanto para registros de 8 datos como de 9 datos (con teléfono)
+					if (datos.length >= 8) {
+						String numMat = datos[0];
+						String dniAlu = datos[3];
+						String nomAlu = datos[4];
+						String telefono = (datos.length >= 9) ? datos[7] : "S/N";
+						String grado = datos[datos.length - 1];
+
+						sb.append(String.format("%-8s %-10s %-8s %-18s %-10s\n", 
+								numMat, dniAlu, grado, 
+								nomAlu.length() > 16 ? nomAlu.substring(0, 16) : nomAlu,
+								telefono));
+					}
+				}
+			} catch (Exception ignored) {}
 		}
->>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
+
+		textArea.setText(sb.toString());
 	}
 }
