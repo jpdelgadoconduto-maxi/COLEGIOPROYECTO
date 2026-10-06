@@ -47,7 +47,7 @@ public class ModuloInicio extends JFrame implements ActionListener {
         panelModulos.setOpaque(false); // Transparente para ver el fondo
 
         // CreaciÃ³n de los botones
-        btnMatricula = new JButton("MATRÃ�CULA");
+        btnMatricula = new JButton("MATRICULA");
         btnMatricula.addActionListener(this);
         JButton btnMantenimiento = new JButton("MANTENIMIENTO");
         JButton btnConsulta = new JButton("CONSULTAS");
