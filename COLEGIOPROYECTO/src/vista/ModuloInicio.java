@@ -32,7 +32,7 @@ public class ModuloInicio extends JFrame implements ActionListener {
         
         getContentPane().add(panelSuperior, BorderLayout.NORTH);
 
-        // --- CONFIGURACIÃ“N DE LA IMAGEN DE FONDO ---
+        // --- CONFIGURACIÃ“N DE LA IMAGEN DE FONDO ----
         JLabel lblEscudoFondo = new JLabel();
         ImageIcon iconoOriginal = new ImageIcon("src/recursos/COLEIMA.jpg");
         java.awt.Image imagenAchicada = iconoOriginal.getImage().getScaledInstance(900, 600, java.awt.Image.SCALE_SMOOTH);
@@ -49,10 +49,20 @@ public class ModuloInicio extends JFrame implements ActionListener {
         // CreaciÃ³n de los botones
         btnMatricula = new JButton("MATRICULA");
         btnMatricula.addActionListener(this);
-        JButton btnMantenimiento = new JButton("MANTENIMIENTO");
+        btnMantenimiento = new JButton("MANTENIMIENTO");
         JButton btnConsulta = new JButton("CONSULTAS");
         JButton btnReporte = new JButton("REPORTES");
-
+        
+        //Creacion de boton mantenimiento
+        btnMantenimiento.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ModuloMntnmto ventanaMntnmto = new ModuloMntnmto(ModuloInicio.this);
+                ventanaMntnmto.setVisible(true);
+                setVisible(false); // Oculta el menú, igual que Consulta
+            }
+        });
+               
+        
         // ðŸŒŸ CORRECCIÃ“N CRÃ�TICA: Se le pasa "ModuloInicio.this" para conectar la navegaciÃ³n POO
         btnConsulta.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) { 
