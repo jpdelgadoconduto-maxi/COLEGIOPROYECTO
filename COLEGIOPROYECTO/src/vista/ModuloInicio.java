@@ -91,7 +91,7 @@ public class ModuloInicio extends JFrame implements ActionListener {
 		}
 	}
 	protected void actionPerformedBtnMatricula(ActionEvent e) {
-		ModuloMatricula ventanaMatricula = new ModuloMatricula();
+		ModuloMatricula ventanaMatricula = new ModuloMatricula(ModuloInicio.this);
         ventanaMatricula.setLocationRelativeTo(null);
         ventanaMatricula.setVisible(true);
         this.dispose();// Oculta la ventana de inicio actual

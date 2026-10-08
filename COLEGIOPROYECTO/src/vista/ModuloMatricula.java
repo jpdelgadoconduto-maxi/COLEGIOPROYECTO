@@ -61,12 +61,14 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 
 	private final String ARCHIVO_ALUMNOS = "alumnos.txt";
 	private int correlativo = 100001;
+	private JButton btnCerrar;
+	private ModuloInicio ventanaInicio;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ModuloMatricula frame = new ModuloMatricula();
+					ModuloMatricula frame = new ModuloMatricula(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -75,7 +77,9 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		});
 	}
 
-	public ModuloMatricula() {
+	public ModuloMatricula(ModuloInicio ventanaInicio) {
+		this.ventanaInicio = ventanaInicio;
+		
 		setTitle("Sistema de Matrícula Escolar - Nivel Primaria");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 680, 530);
@@ -231,6 +235,12 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
+		
+		btnCerrar = new JButton("CERRAR");
+		btnCerrar.addActionListener(this);
+		btnCerrar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnCerrar.setBounds(535, 330, 105, 30);
+		contentPane.add(btnCerrar);
 
 		// Inicialización leyendo de alumnos.txt
 		cargarCorrelativo();
@@ -241,7 +251,9 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnMatricular) {
+		if (e.getSource() == btnCerrar) {
+			actionPerformedBtnCerrar_1(e);
+		} else if (e.getSource() == btnMatricular) {
 			matricularAlumno();
 		} else if (e.getSource() == btnAnular) {
 			anularMatricula();
@@ -275,7 +287,7 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		String hora = textHora.getText();
 		String gradoSeccion = (String) comboBox.getSelectedItem();
 
-		// Guardado en archivo
+		// Guardado en archivo TXT
 		String lineaGuardado = numMatricula + ";" + fecha + ";" + hora + ";" + dniAlu + ";" + nomAlu + ";" + dniApo + ";" + nomApo + ";" + telefono + ";" + gradoSeccion;
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO_ALUMNOS, true))) {
@@ -284,17 +296,42 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 
 			JOptionPane.showMessageDialog(this, "¡Matrícula N° " + numMatricula + " registrada exitosamente!");
 
+			// Imprime en pantalla la constancia individual recién registrada
+			imprimirRegistroActual(numMatricula, fecha, hora, dniAlu, nomAlu, dniApo, nomApo, telefono, gradoSeccion);
+
 			correlativo++;
 			limpiarCampos();
 			nuevoRegistro();
 			actualizarVacantes();
-			
-			// Actualiza el JTextArea inmediatamente
-			listarMatriculas();
 
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, "Error al escribir en " + ARCHIVO_ALUMNOS + ": " + ex.getMessage(), "Error I/O", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	// Método que imprime la constancia de la matrícula en el JTextArea
+	private void imprimirRegistroActual(String numMat, String fecha, String hora, String dniAlu, String nomAlu, String dniApo, String nomApo, String tel, String grado) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("====================================================\n");
+		sb.append("         COMPROBANTE DE REGISTRO DE MATRÍCULA        \n");
+		sb.append("====================================================\n");
+		sb.append(String.format(" N° MATRÍCULA  : %s\n", numMat));
+		sb.append(String.format(" FECHA / HORA  : %s - %s\n", fecha, hora));
+		sb.append("----------------------------------------------------\n");
+		sb.append(" DATOS DEL ALUMNO:\n");
+		sb.append(String.format("   DNI         : %s\n", dniAlu));
+		sb.append(String.format("   NOMBRES     : %s\n", nomAlu));
+		sb.append(String.format("   GRADO/SECC. : %s\n", grado));
+		sb.append("----------------------------------------------------\n");
+		sb.append(" DATOS DEL APODERADO:\n");
+		sb.append(String.format("   DNI         : %s\n", dniApo));
+		sb.append(String.format("   NOMBRES     : %s\n", nomApo));
+		sb.append(String.format("   TELÉFONO    : %s\n", tel));
+		sb.append("====================================================\n");
+		sb.append("             ESTADO: MATRICULADO / ACTIVO          \n");
+		sb.append("====================================================\n");
+
+		textArea.setText(sb.toString());
 	}
 
 	private void anularMatricula() {
@@ -404,7 +441,6 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		textVacante.setText(String.valueOf(vacantes));
 	}
 
-	// Carga y muestra todos los registros del TXT en el JTextArea
 	private void listarMatriculas() {
 		textArea.setText("");
 		StringBuilder sb = new StringBuilder();
@@ -419,7 +455,6 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 					if (linea.trim().isEmpty()) continue;
 					
 					String[] datos = linea.split(";");
-					// Funciona tanto para registros de 8 datos como de 9 datos (con teléfono)
 					if (datos.length >= 8) {
 						String numMat = datos[0];
 						String dniAlu = datos[3];
@@ -437,5 +472,14 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		}
 
 		textArea.setText(sb.toString());
+	}
+
+	protected void actionPerformedBtnCerrar_1(ActionEvent e) {
+		if (ventanaInicio != null) {
+			ventanaInicio.setVisible(true);
+		} else {
+			new ModuloInicio().setVisible(true);
+		}
+		dispose();
 	}
 }
