@@ -24,6 +24,12 @@ public class ModuloMntnmto extends JFrame {
 	private JButton btnAdicionar, btnModificar, btnEliminar, btnLimpiar, btnCerrar;
 	private JTable tabla;
 	private DefaultTableModel modeloTabla;
+	
+	// Excepción propia para errores de datos
+	private static class DatosInvalidosException extends Exception {
+		private static final long serialVersionUID = 1L;
+		public DatosInvalidosException(String mensaje) { super(mensaje); }
+	}
 
 	public ModuloMntnmto(ModuloInicio inicio) {
 		this.ventanaInicio = inicio;
@@ -40,6 +46,31 @@ public class ModuloMntnmto extends JFrame {
 		t.setBounds(x + anchoLabel, y + 2, anchoCampo, 22);
 		contentPane.add(t);
 		return t;
+	}
+	
+	// Solo letras (con tildes, ñ) y espacios. Rechaza números o mezclas.
+	private void validarSoloLetras(JTextField campo, String nombreCampo) throws DatosInvalidosException {
+		String valor = campo.getText().trim();
+		if (!valor.matches("[A-Za-zÁÉÍÓÚÜáéíóúüÑñ ]+")) {
+			campo.requestFocus();
+			campo.selectAll();
+			throw new DatosInvalidosException(
+				"El campo \"" + nombreCampo + "\" solo debe contener letras.\n"
+				+ "No se permiten números ni caracteres combinados. Por favor, corrija el dato.");
+		}
+	}
+
+	// Solo números con cantidad exacta o rango de dígitos
+	private void validarSoloNumeros(JTextField campo, String nombreCampo, int min, int max) throws DatosInvalidosException {
+		String valor = campo.getText().trim();
+		if (!valor.matches("\\d{" + min + "," + max + "}")) {
+			campo.requestFocus();
+			campo.selectAll();
+			String cant = (min == max) ? min + " dígitos" : "entre " + min + " y " + max + " dígitos";
+			throw new DatosInvalidosException(
+				"El campo \"" + nombreCampo + "\" debe contener solo números (" + cant + ").\n"
+				+ "Por favor, corrija el dato.");
+		}
 	}
 
 	private void initialize() {
@@ -183,35 +214,55 @@ public class ModuloMntnmto extends JFrame {
 
 	// Devuelve true si todos los datos son válidos
 	private boolean validar(boolean esNuevo) {
-		JTextField[] todos = { txtDni, txtNombres, txtApellidos, txtEdad, txtGrado,
-			txtTelefono, txtPapa, txtMama, txtCelApo, txtDireccion };
-		for (JTextField t : todos) {
-			if (t.getText().trim().isEmpty()) {
-				mensaje("Complete todos los campos.");
-				return false;
+		try {
+			// Campos vacíos
+			JTextField[] todos = { txtDni, txtNombres, txtApellidos, txtEdad, txtGrado,
+				txtTelefono, txtPapa, txtMama, txtCelApo, txtDireccion };
+			for (JTextField t : todos) {
+				if (t.getText().trim().isEmpty()) {
+					t.requestFocus();
+					throw new DatosInvalidosException("Complete todos los campos.");
+				}
 			}
-			if (t.getText().contains(":") && false) return false;
-		}
-		if (!txtDni.getText().trim().matches("\\d{8}")) {
-			mensaje("El DNI debe tener 8 dígitos.");
-			return false;
-		}
-		if (!txtEdad.getText().trim().matches("\\d{1,2}")) {
-			mensaje("La edad debe ser un número válido.");
-			return false;
-		}
-		if (!txtCelApo.getText().trim().matches("\\d{9}")) {
-			mensaje("El celular del apoderado debe tener 9 dígitos.");
-			return false;
-		}
-		Alumno existente = arreglo.buscarDni(txtDni.getText().trim());
-		if (existente != null && (esNuevo || !existente.getCodigo().equals(txtCodigo.getText()))) {
-			mensaje("Ya existe un alumno con ese DNI.");
-			return false;
-		}
-		return true;
-	}
 
+			// Campos que deben ser SOLO TEXTO
+			validarSoloLetras(txtNombres, "Nombres");
+			validarSoloLetras(txtApellidos, "Apellidos");
+			validarSoloLetras(txtPapa, "Papá");
+			validarSoloLetras(txtMama, "Mamá");
+
+			// Campos que deben ser SOLO NÚMEROS
+			validarSoloNumeros(txtDni, "DNI", 8, 8);
+			validarSoloNumeros(txtTelefono, "Teléfono", 7, 9);
+			validarSoloNumeros(txtCelApo, "Cel. Apoderado", 9, 9);
+
+			// Edad: aquí el try/catch captura el error de conversión
+			try {
+				int edad = Integer.parseInt(txtEdad.getText().trim());
+				if (edad < 3 || edad > 99) {
+					throw new DatosInvalidosException("La edad debe estar entre 3 y 99 años.");
+				}
+			} catch (NumberFormatException ex) {
+				txtEdad.requestFocus();
+				txtEdad.selectAll();
+				throw new DatosInvalidosException("La edad debe ser un número válido. Por favor, corrija el dato.");
+			}
+
+			// DNI duplicado
+			Alumno existente = arreglo.buscarDni(txtDni.getText().trim());
+			if (existente != null && (esNuevo || !existente.getCodigo().equals(txtCodigo.getText()))) {
+				throw new DatosInvalidosException("Ya existe un alumno con ese DNI.");
+			}
+
+			return true;
+
+		} catch (DatosInvalidosException ex) {
+			JOptionPane.showMessageDialog(this, ex.getMessage(),
+				"Dato incorrecto - Requiere corrección", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+	
 	private void adicionar() {
 		if (!validar(true)) return;
 		String fecha = new SimpleDateFormat("dd/MM/yyyy").format(new Date());

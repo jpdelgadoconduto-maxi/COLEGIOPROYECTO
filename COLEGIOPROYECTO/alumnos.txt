@@ -1,0 +1,15 @@
+Código: 202610001
+DNI: 73637054
+Nombre: Cesar Leon
+Apellidos: Muñoz Carrasco
+Edad: 30
+Grado al que pasa: 3
+Teléfono: 935327243
+Nombre del Papá: Lucas
+Nombre de la Mamá: Milenka
+Celular Apoderado: 990776362
+Dirección: PJ, Virgen del Carmen Mz h lote 2dfggfdgfdgdfg345
+Estado de Matrícula: Registrado
+Fecha de Movimiento: 16/10/2026
+Responsable del Movimiento: Mantenimiento
+====
