@@ -10,14 +10,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import Control.Alumno;
-import Control.ArregloAlumnos;
+import Control.ArregloAlumno;
 
 public class ModuloMntnmto extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private ModuloInicio ventanaInicio;
-	private ArregloAlumnos arreglo = new ArregloAlumnos();
+	private ArregloAlumno arreglo = new ArregloAlumno();
 
 	private JTextField txtCodigo, txtDni, txtNombres, txtApellidos, txtEdad;
 	private JTextField txtGrado, txtTelefono, txtPapa, txtMama, txtCelApo, txtDireccion;

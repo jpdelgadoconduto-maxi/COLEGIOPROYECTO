@@ -10,6 +10,9 @@ Nombre de la Mamá: Milenka
 Celular Apoderado: 990776362
 Dirección: PJ, Virgen del Carmen Mz h lote 2dfggfdgfdgdfg345
 Estado de Matrícula: Registrado
-Fecha de Movimiento: 16/10/2026
+Fecha de Movimiento: 18/10/2026
 Responsable del Movimiento: Mantenimiento
 ====
+100001;18/10/2026;20:25:23;73637058;cesar leon muñoz carrasco;dsdasdsa;cesar leon muñoz carrasco;93535411;1 - A
+100002;18/10/2026;20:29:43;73637057;juan peres;73637055;juan peres;99999999999999;1 - A
+100003;18/10/2026;20:32:42;1521212123131;cesar leon muñoz carrasco;1521212123131;cesar leon muñoz carrasco;123456789;1 - A
