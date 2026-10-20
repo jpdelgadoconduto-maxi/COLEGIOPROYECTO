@@ -1,68 +1,59 @@
 package vista;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;//permite buscar automatica por DNI
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;//permite volver a la ventana inicio al cerrar
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextArea;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+
+import clases.Matricula;
 
 public class ModuloMatricula extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textDniAlumno;
-	private JLabel lblTitulo;
-	private JLabel lblNMatricula;
-	private JLabel lblDniAlumno;
-	private JTextField textMatricula;
-	private JLabel lblGradoSeccion;
-	private JLabel lblFecha;
-	private JLabel lblAlumno;
-	private JLabel lblVacante;
-	private JTextField textVacante;
-	private JTextField textAlumno;
-	private JTextField textFecha;
-	private JLabel lblHora;
-	private JTextField textHora;
-	private JLabel lblApoderado;
-	private JTextField textApoderado;
-	private JLabel lblDniApoderado;
-	private JTextField textDniApoderado;
-	private JLabel lblTelefono;
-	private JTextField textTelefono;
-	
-	private JButton btnMatricular;
-	private JButton btnAnular;
-	private JButton btnBorrar;
-	private JTextArea textArea;
+	private JLabel lblNewLabel, lblDniApoderado, lblNewLabel_2, lblNewLabel_3;
+	private JLabel lblFecha, lblNewLabel_4, lblNombresApoderado, lblNewLabel_5, lblNewLabel_6, lblHora, lblNewLabel_1;
+	private JTextField textMatricula, textDniAlumno, textDniApoderado, textTelefono;
+	private JTextField textFecha, textNombresAlumno, textNombresApoderado, textVacantes, textHora;
 	private JComboBox<String> comboBox;
+	private JTextArea textArea;
+	private JButton btnCerrar, btnLimpiar, btnAnular, btnMatricular;
 
-	private final String ARCHIVO_ALUMNOS = "alumnos.txt";
-	private int correlativo = 100001;
-	private JButton btnCerrar;
-	private ModuloInicio ventanaInicio;
+	private ArrayList<Matricula> listaMatriculas = new ArrayList<>();
+	private int vacantesDisponibles = 30;
+	private JButton btnGuardar;
+	private ModuloInicio moduloInicio;//me hara referencia a la ventana inicio
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -77,409 +68,507 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 		});
 	}
 
-	public ModuloMatricula(ModuloInicio ventanaInicio) {
-		this.ventanaInicio = ventanaInicio;
-		
-		setTitle("Sistema de Matrícula Escolar - Nivel Primaria");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 680, 530);
+	public ModuloMatricula(ModuloInicio moduloInicio) {
+		this.moduloInicio = moduloInicio;
+		setTitle("Matricula Escolar - Nivel Primaria");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);// Usamos DISPOSE_ON_CLOSE para manejar la acción de cierre manualmente
+		setBounds(100, 100, 674, 545);
 		setLocationRelativeTo(null);
-
+		
+		// Evento para que al pulsar la "X" de la ventana vuelva a ModuloInicio
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				volverAlInicio();
+			}
+		});
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		// Título
-		lblTitulo = new JLabel("MATRÍCULA DE ALUMNOS");
-		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTitulo.setBounds(230, 10, 220, 25);
-		contentPane.add(lblTitulo);
+		lblNewLabel = new JLabel("N° Matrícula");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel.setBounds(22, 52, 88, 20);
+		contentPane.add(lblNewLabel);
 
-		// N° Matrícula
-		lblNMatricula = new JLabel("N° Matrícula");
-		lblNMatricula.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNMatricula.setBounds(20, 45, 85, 25);
-		contentPane.add(lblNMatricula);
+		lblDniApoderado = new JLabel("DNI Apoderado");
+		lblDniApoderado.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblDniApoderado.setBounds(22, 133, 102, 20);
+		contentPane.add(lblDniApoderado);
+
+		lblNewLabel_2 = new JLabel("DNI Alumno");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_2.setBounds(22, 93, 88, 20);
+		contentPane.add(lblNewLabel_2);
+
+		lblNewLabel_3 = new JLabel("Telefono");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_3.setBounds(22, 174, 88, 20);
+		contentPane.add(lblNewLabel_3);
 
 		textMatricula = new JTextField();
-		textMatricula.setEditable(false);
-		textMatricula.setBounds(115, 47, 90, 22);
+		textMatricula.setBounds(131, 54, 96, 18);
 		contentPane.add(textMatricula);
+		textMatricula.setColumns(10);
+		aplicarFiltroNumerico(textMatricula, 11);// Limitar N° Matrícula a 11 dígitos numéricos
 
-		// Fecha y Hora
+		textDniAlumno = new JTextField();
+		textDniAlumno.setColumns(10);
+		textDniAlumno.setBounds(131, 95, 96, 18);
+		contentPane.add(textDniAlumno);
+		aplicarFiltroNumerico(textDniAlumno, 8);// Limitar DNI Alumno a 8 dígitos numéricos
+		
+		// Evento para buscar automáticamente en pendientes.txt al escribir el DNI del alumno
+		textDniAlumno.addKeyListener(new KeyAdapter() {
+		    @Override
+		    public void keyReleased(KeyEvent e) {
+		        String dni = textDniAlumno.getText().trim();
+		        // Solo buscar si el DNI ingresado tiene exactamente 8 dígitos
+		        if (dni.length() == 8) {
+		            buscarEnPendientePorDni(dni);
+		        }
+		    }
+		});
+
+		textDniApoderado = new JTextField();
+		textDniApoderado.setColumns(10);
+		textDniApoderado.setBounds(131, 135, 96, 18);
+		contentPane.add(textDniApoderado);
+		aplicarFiltroNumerico(textDniApoderado, 8);// Limitar DNI Apoderado a 8 dígitos numéricos
+
+		textTelefono = new JTextField();
+		textTelefono.setColumns(10);
+		textTelefono.setBounds(131, 176, 96, 18);
+		contentPane.add(textTelefono);
+		aplicarFiltroNumerico(textTelefono, 9);// Limitar teléfono a 9 dígitos numéricos
+
 		lblFecha = new JLabel("Fecha");
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblFecha.setBounds(230, 45, 45, 25);
+		lblFecha.setBounds(278, 52, 45, 20);
 		contentPane.add(lblFecha);
+
+		lblNewLabel_4 = new JLabel("Nombres Alumno");
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_4.setBounds(278, 93, 112, 20);
+		contentPane.add(lblNewLabel_4);
+
+		lblNombresApoderado = new JLabel("Nombres Apoderado");
+		lblNombresApoderado.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNombresApoderado.setBounds(278, 133, 134, 20);
+		contentPane.add(lblNombresApoderado);
+
+		lblNewLabel_5 = new JLabel("Grado / Seccion");
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_5.setBounds(278, 174, 112, 20);
+		contentPane.add(lblNewLabel_5);
+
+		lblNewLabel_6 = new JLabel("Matricula de Alumnos");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_6.setBounds(241, 10, 171, 20);
+		contentPane.add(lblNewLabel_6);
 
 		textFecha = new JTextField();
 		textFecha.setEditable(false);
-		textFecha.setBounds(280, 47, 85, 22);
+		textFecha.setColumns(10);
+		textFecha.setBounds(329, 54, 75, 18);
 		contentPane.add(textFecha);
+
+		textNombresAlumno = new JTextField();
+		textNombresAlumno.setColumns(10);
+		textNombresAlumno.setBounds(419, 93, 189, 18);
+		contentPane.add(textNombresAlumno);
+
+		textNombresApoderado = new JTextField();
+		textNombresApoderado.setColumns(10);
+		textNombresApoderado.setBounds(419, 133, 189, 18);
+		contentPane.add(textNombresApoderado);
+
+		comboBox = new JComboBox<>();
+		comboBox.setFont(new Font("Tahoma", Font.BOLD, 11));
+		comboBox.setModel(new DefaultComboBoxModel<>(new String[] {
+			"1 - A", "1 - B", "1 - C", "2 - A", "2 - B", "2 - C", 
+			"3 - A", "3 - B", "3 - C", "4 - A", "4 - B", "4 - C", 
+			"5 - A", "5 - B", "5 - C", "6 - A", "6 - B", "6 - C"
+		}));
+		comboBox.setBounds(419, 175, 72, 20);
+		contentPane.add(comboBox);
 
 		lblHora = new JLabel("Hora");
 		lblHora.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblHora.setBounds(380, 45, 40, 25);
+		lblHora.setBounds(418, 52, 45, 20);
 		contentPane.add(lblHora);
 
-		textHora = new JTextField();
-		textHora.setEditable(false);
-		textHora.setBounds(425, 47, 80, 22);
-		contentPane.add(textHora);
+		lblNewLabel_1 = new JLabel("Vacantes");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1.setBounds(520, 174, 64, 20);
+		contentPane.add(lblNewLabel_1);
 
-		// Datos del Alumno
-		lblDniAlumno = new JLabel("DNI Alumno");
-		lblDniAlumno.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblDniAlumno.setBounds(20, 80, 85, 25);
-		contentPane.add(lblDniAlumno);
+		textVacantes = new JTextField();
+		textVacantes.setEditable(false);
+		textVacantes.setColumns(10);
+		textVacantes.setBounds(586, 176, 64, 18);
+		contentPane.add(textVacantes);
 
-		textDniAlumno = new JTextField();
-		textDniAlumno.setBounds(115, 82, 110, 22);
-		contentPane.add(textDniAlumno);
-
-		lblAlumno = new JLabel("Nombres Alumno");
-		lblAlumno.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblAlumno.setBounds(240, 80, 115, 25);
-		contentPane.add(lblAlumno);
-
-		textAlumno = new JTextField();
-		textAlumno.setBounds(360, 82, 280, 22);
-		contentPane.add(textAlumno);
-
-		// Datos del Apoderado
-		lblDniApoderado = new JLabel("DNI Apoderado");
-		lblDniApoderado.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblDniApoderado.setBounds(20, 115, 100, 25);
-		contentPane.add(lblDniApoderado);
-
-		textDniApoderado = new JTextField();
-		textDniApoderado.setBounds(125, 117, 100, 22);
-		contentPane.add(textDniApoderado);
-
-		lblApoderado = new JLabel("Nombres Apoderado");
-		lblApoderado.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblApoderado.setBounds(235, 115, 130, 25);
-		contentPane.add(lblApoderado);
-
-		textApoderado = new JTextField();
-		textApoderado.setBounds(370, 117, 270, 22);
-		contentPane.add(textApoderado);
-
-		// Campo Teléfono
-		lblTelefono = new JLabel("Teléfono");
-		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblTelefono.setBounds(20, 150, 85, 25);
-		contentPane.add(lblTelefono);
-
-		textTelefono = new JTextField();
-		textTelefono.setBounds(100, 152, 125, 22);
-		contentPane.add(textTelefono);
-
-		// Grado / Sección y Vacantes
-		lblGradoSeccion = new JLabel("Grado / Sección");
-		lblGradoSeccion.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblGradoSeccion.setBounds(240, 150, 110, 25);
-		contentPane.add(lblGradoSeccion);
-
-		comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {
-			"1 - A", "1 - B", "1 - C", 
-			"2 - A", "2 - B", "2 - C", 
-			"3 - A", "3 - B", "3 - C", 
-			"4 - A", "4 - B", "4 - C", 
-			"5 - A", "5 - B", "5 - C", 
-			"6 - A", "6 - B", "6 - C"
-		}));
-		comboBox.setBackground(Color.WHITE);
-		comboBox.setFont(new Font("Tahoma", Font.BOLD, 12));
-		comboBox.setBounds(355, 151, 90, 23);
-		comboBox.addActionListener(this);
-		contentPane.add(comboBox);
-
-		lblVacante = new JLabel("Vacantes");
-		lblVacante.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblVacante.setBounds(460, 150, 65, 25);
-		contentPane.add(lblVacante);
-
-		textVacante = new JTextField();
-		textVacante.setEditable(false);
-		textVacante.setBounds(530, 152, 50, 22);
-		contentPane.add(textVacante);
-
-		// Botones
-		btnMatricular = new JButton("Matricular");
-		btnMatricular.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnMatricular.setBounds(535, 195, 105, 32);
-		btnMatricular.addActionListener(this);
-		contentPane.add(btnMatricular);
-
-		btnAnular = new JButton("Anular");
-		btnAnular.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnAnular.setBounds(535, 240, 105, 30);
-		btnAnular.addActionListener(this);
-		contentPane.add(btnAnular);
-
-		btnBorrar = new JButton("Limpiar");
-		btnBorrar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnBorrar.setBounds(535, 280, 105, 30);
-		btnBorrar.addActionListener(this);
-		contentPane.add(btnBorrar);
-
-		// Área de Texto con Scroll
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 195, 500, 270);
+		scrollPane.setBounds(22, 238, 515, 260);
 		contentPane.add(scrollPane);
 
 		textArea = new JTextArea();
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
-		
+
 		btnCerrar = new JButton("CERRAR");
-		btnCerrar.addActionListener(this);
 		btnCerrar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnCerrar.setBounds(535, 330, 105, 30);
+		btnCerrar.setBounds(547, 407, 105, 30);
+		btnCerrar.addActionListener(this);
 		contentPane.add(btnCerrar);
 
-		// Inicialización leyendo de alumnos.txt
-		cargarCorrelativo();
-		nuevoRegistro();
+		btnLimpiar = new JButton("Limpiar");
+		btnLimpiar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnLimpiar.setBounds(545, 323, 105, 30);
+		btnLimpiar.addActionListener(this);
+		contentPane.add(btnLimpiar);
+
+		btnAnular = new JButton("Anular");
+		btnAnular.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnAnular.setBounds(545, 283, 105, 30);
+		btnAnular.addActionListener(this);
+		contentPane.add(btnAnular);
+
+		btnMatricular = new JButton("Matricular");
+		btnMatricular.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnMatricular.setBounds(545, 238, 105, 32);
+		btnMatricular.addActionListener(this);
+		contentPane.add(btnMatricular);
+
+		textHora = new JTextField();
+		textHora.setEditable(false);
+		textHora.setColumns(10);
+		textHora.setBounds(454, 54, 64, 18);
+		contentPane.add(textHora);
+		
+		btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(this);
+		btnGuardar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnGuardar.setBounds(545, 367, 105, 30);
+		contentPane.add(btnGuardar);
+
+		cargarFechaHora();
 		actualizarVacantes();
-		listarMatriculas();
+		imprimirEncabezado();
+	}
+
+	// Método auxiliar para restringir la cantidad máxima de caracteres y permitir solo números
+	private void aplicarFiltroNumerico(JTextField textField, int limite) {
+		((AbstractDocument) textField.getDocument()).setDocumentFilter(new DocumentFilter() {
+			@Override
+			public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+				if (string == null) return;
+				if ((string.isEmpty() || esNumerico(string)) && (fb.getDocument().getLength() + string.length()) <= limite) {
+					super.insertString(fb, offset, string, attr);
+				}
+			}
+
+			@Override
+			public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+				if (text == null) return;
+				if (text.isEmpty() || (esNumerico(text) && (fb.getDocument().getLength() - length + text.length()) <= limite)) {
+					super.replace(fb, offset, length, text, attrs);
+				}
+			}
+
+			private boolean esNumerico(String text) {
+				return text.matches("\\d+");
+			}
+		});
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnCerrar) {
-			actionPerformedBtnCerrar_1(e);
-		} else if (e.getSource() == btnMatricular) {
-			matricularAlumno();
-		} else if (e.getSource() == btnAnular) {
-			anularMatricula();
-		} else if (e.getSource() == btnBorrar) {
-			limpiarCampos();
-		} else if (e.getSource() == comboBox) {
-			actualizarVacantes();
+	    if (e.getSource() == btnMatricular) {
+	        procesarMatricula();
+	    } else if (e.getSource() == btnAnular) {
+	        anularMatricula();
+	    } else if (e.getSource() == btnLimpiar) {
+	        limpiarCampos();
+	    } else if (e.getSource() == btnGuardar) {
+	        procesarGuardarPendiente();
+	    } else if (e.getSource() == btnCerrar) {
+	        volverAlInicio();
+	    }
+	}
+	
+	//Método para regresar a la ventana principal ModuloInicio
+	private void volverAlInicio() {
+		if (moduloInicio != null) {
+			moduloInicio.setVisible(true);//
+		}
+		this.dispose();
+	}
+
+	private void imprimirEncabezado() {
+		textArea.setText("");
+		String cabecera = String.format("%-12s %-10s %-20s %-10s %-20s %-10s %-10s %-10s %-6s\n",
+				"N° MATR.", "DNI ALUMNO", "ALUMNO", "DNI APOD.", "APODERADO", "TELÉFONO", "GRADO/SEC", "FECHA", "HORA");
+		String separador = "==============================================================================================================\n";
+		textArea.append(cabecera);
+		textArea.append(separador);
+	}
+
+	private void procesarMatricula() {
+	    if (vacantesDisponibles <= 0) {
+	        JOptionPane.showMessageDialog(this, "No quedan vacantes disponibles.", "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+
+	    String numMatricula = textMatricula.getText().trim();
+	    String dniAlumno = textDniAlumno.getText().trim();
+	    String dniApoderado = textDniApoderado.getText().trim();
+	    String nombresAlumno = textNombresAlumno.getText().trim();
+	    String nombresApoderado = textNombresApoderado.getText().trim();
+	    String telefono = textTelefono.getText().trim();
+	    String gradoSeccion = comboBox.getSelectedItem().toString();
+
+	    if (numMatricula.isEmpty() || dniAlumno.isEmpty() || dniApoderado.isEmpty() || 
+	        nombresAlumno.isEmpty() || nombresApoderado.isEmpty()) {
+	        JOptionPane.showMessageDialog(this, "Por favor complete todos los campos obligatorios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+	        return;
+	    }
+
+	    if (dniAlumno.length() != 8) {
+	        JOptionPane.showMessageDialog(this, "El DNI del alumno debe tener exactamente 8 dígitos.", "Error de validación", JOptionPane.WARNING_MESSAGE);
+	        textDniAlumno.requestFocus();
+	        return;
+	    }
+
+	    if (dniApoderado.length() != 8) {
+	        JOptionPane.showMessageDialog(this, "El DNI del apoderado debe tener exactamente 8 dígitos.", "Error de validación", JOptionPane.WARNING_MESSAGE);
+	        textDniApoderado.requestFocus();
+	        return;
+	    }
+
+	    cargarFechaHora();
+	    vacantesDisponibles--;
+	    actualizarVacantes();
+
+	    Matricula m = new Matricula(numMatricula, dniAlumno, dniApoderado, telefono, 
+	            textFecha.getText(), textHora.getText(), nombresAlumno, nombresApoderado, gradoSeccion, vacantesDisponibles);
+
+	    listaMatriculas.add(m);
+	    listarTodas();
+
+	    // 1. Guardar automáticamente en el archivo alumnos.txt
+	    guardarEnArchivo(m);
+
+	 // 2. Si venía de pendientes, eliminarlo del archivo pendientes.txt
+	    eliminarDePendientes(dniAlumno);
+
+		JOptionPane.showMessageDialog(this, "Matrícula registrada exitosamente en alumnos.txt.");
+
+		limpiarCampos();
+	}
+	// Método que escribe la matrícula en alumnos.txt (añadiendo al final)
+	private void guardarEnArchivo(Matricula m) {
+	    try (PrintWriter pw = new PrintWriter(new FileWriter("alumnos.txt", true))) {
+	        // Formato exacto mostrado en tu alumnos.txt:
+	        // Matricula;Fecha;Hora;DniAlumno;NombreAlumno;DniApoderado;NombreApoderado;Telefono;GradoSeccion
+	        String linea = m.getMatricula() + ";" +
+	                       m.getFecha() + ";" +
+	                       m.getHora() + ";" +
+	                       m.getDniAlumno() + ";" +
+	                       m.getNombresAlumno() + ";" +
+	                       m.getDniApoderado() + ";" +
+	                       m.getNombresApoderado() + ";" +
+	                       m.getTelefono() + ";" +
+	                       m.getGradoSeccion();
+	        pw.println(linea);
+	    } catch (IOException e) {
+	        JOptionPane.showMessageDialog(this, "Error al guardar en alumnos.txt: " + e.getMessage(), "Error de Archivo", JOptionPane.ERROR_MESSAGE);
+	    }
+	}
+
+	// Método para guardar los datos en el archivo pendiente.txt
+	private void guardarEnPendiente(Matricula m) {
+	    // Usamos FileWriter en modo append (true) para agregar al final
+		try (FileWriter fw = new FileWriter("pendientes.txt", true);
+		         BufferedWriter bw = new BufferedWriter(fw);
+		         PrintWriter pw = new PrintWriter(bw)) {
+			
+			String linea = m.getMatricula() + ";" +
+                    m.getFecha() + ";" +
+                    m.getHora() + ";" +
+                    m.getDniAlumno() + ";" +
+                    m.getNombresAlumno() + ";" +
+                    m.getDniApoderado() + ";" +
+                    m.getNombresApoderado() + ";" +
+                    m.getTelefono() + ";" +
+                    m.getGradoSeccion();
+     
+			pw.println(linea);
+	        pw.flush();// Asegura que la información se escriba físicamente en el archivo de inmediato
+
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "Error al guardar en pendientes.txt: " + e.getMessage(), "Error I/O", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	private void matricularAlumno() {
-		String dniAlu = textDniAlumno.getText().trim();
-		String nomAlu = textAlumno.getText().trim();
-		String dniApo = textDniApoderado.getText().trim();
-		String nomApo = textApoderado.getText().trim();
-		String telefono = textTelefono.getText().trim();
+	// Método que procesa la acción del botón Guardar
+	private void procesarGuardarPendiente() {
+	    String numMatricula = textMatricula.getText().trim();
+	    String dniAlumno = textDniAlumno.getText().trim();
+	    String dniApoderado = textDniApoderado.getText().trim();
+	    String nombresAlumno = textNombresAlumno.getText().trim();
+	    String nombresApoderado = textNombresApoderado.getText().trim();
+	    String telefono = textTelefono.getText().trim();
+	    String gradoSeccion = comboBox.getSelectedItem().toString();
+	    
+	    // Validación básica de campos
+	    if (numMatricula.isEmpty() || dniAlumno.isEmpty() || nombresAlumno.isEmpty()) {
+	        JOptionPane.showMessageDialog(this, "Por favor complete al menos N° Matrícula, DNI Alumno y Nombres del Alumno.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+	        return;
+	    }
+	    
+	    if (dniAlumno.length() != 8) {
+	        JOptionPane.showMessageDialog(this, "El DNI del alumno debe tener 8 dígitos.", "Error de validación", JOptionPane.WARNING_MESSAGE);
+	        textDniAlumno.requestFocus();
+	        return;
+	    }
 
-		if (dniAlu.isEmpty() || nomAlu.isEmpty() || dniApo.isEmpty() || nomApo.isEmpty() || telefono.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Por favor complete todos los campos, incluyendo el Teléfono.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
+	    cargarFechaHora();
 
-		int vacantes = Integer.parseInt(textVacante.getText());
-		if (vacantes <= 0) {
-			JOptionPane.showMessageDialog(this, "No quedan vacantes disponibles en esta sección.", "Aforo Completo", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+	    // Creamos el objeto Matricula
+	    Matricula m = new Matricula(numMatricula, dniAlumno, dniApoderado, telefono, 
+	            textFecha.getText(), textHora.getText(), nombresAlumno, nombresApoderado, gradoSeccion, vacantesDisponibles);
 
-		String numMatricula = textMatricula.getText();
-		String fecha = textFecha.getText();
-		String hora = textHora.getText();
-		String gradoSeccion = (String) comboBox.getSelectedItem();
+	    // 1. Añadimos a la lista local para mostrarlo en pantalla
+	    listaMatriculas.add(m);
 
-		// Guardado en archivo TXT
-		String lineaGuardado = numMatricula + ";" + fecha + ";" + hora + ";" + dniAlu + ";" + nomAlu + ";" + dniApo + ";" + nomApo + ";" + telefono + ";" + gradoSeccion;
+	    // 2. Imprimimos/Actualizamos el JTextArea con la nueva fila
+	    listarTodas();
 
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO_ALUMNOS, true))) {
-			bw.write(lineaGuardado);
-			bw.newLine();
+	    // 3. Escribimos la información en pendiente.txt
+	    guardarEnPendiente(m);
 
-			JOptionPane.showMessageDialog(this, "¡Matrícula N° " + numMatricula + " registrada exitosamente!");
-
-			// Imprime en pantalla la constancia individual recién registrada
-			imprimirRegistroActual(numMatricula, fecha, hora, dniAlu, nomAlu, dniApo, nomApo, telefono, gradoSeccion);
-
-			correlativo++;
-			limpiarCampos();
-			nuevoRegistro();
-			actualizarVacantes();
-
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, "Error al escribir en " + ARCHIVO_ALUMNOS + ": " + ex.getMessage(), "Error I/O", JOptionPane.ERROR_MESSAGE);
-		}
+	    JOptionPane.showMessageDialog(this, "Registro guardado correctamente en pendiente.txt.");
+	    
+	    // 4. Limpiamos los campos del formulario
+	    limpiarCampos();
 	}
-
-	// Método que imprime la constancia de la matrícula en el JTextArea
-	private void imprimirRegistroActual(String numMat, String fecha, String hora, String dniAlu, String nomAlu, String dniApo, String nomApo, String tel, String grado) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("====================================================\n");
-		sb.append("         COMPROBANTE DE REGISTRO DE MATRÍCULA        \n");
-		sb.append("====================================================\n");
-		sb.append(String.format(" N° MATRÍCULA  : %s\n", numMat));
-		sb.append(String.format(" FECHA / HORA  : %s - %s\n", fecha, hora));
-		sb.append("----------------------------------------------------\n");
-		sb.append(" DATOS DEL ALUMNO:\n");
-		sb.append(String.format("   DNI         : %s\n", dniAlu));
-		sb.append(String.format("   NOMBRES     : %s\n", nomAlu));
-		sb.append(String.format("   GRADO/SECC. : %s\n", grado));
-		sb.append("----------------------------------------------------\n");
-		sb.append(" DATOS DEL APODERADO:\n");
-		sb.append(String.format("   DNI         : %s\n", dniApo));
-		sb.append(String.format("   NOMBRES     : %s\n", nomApo));
-		sb.append(String.format("   TELÉFONO    : %s\n", tel));
-		sb.append("====================================================\n");
-		sb.append("             ESTADO: MATRICULADO / ACTIVO          \n");
-		sb.append("====================================================\n");
-
-		textArea.setText(sb.toString());
-	}
-
-	private void anularMatricula() {
-		String numStr = JOptionPane.showInputDialog(this, "Ingrese el N° de Matrícula a anular:");
-		if (numStr == null || numStr.trim().isEmpty()) {
-			return;
-		}
-
-		String targetMatricula = numStr.trim();
-		File archivo = new File(ARCHIVO_ALUMNOS);
-
-		if (!archivo.exists()) {
-			JOptionPane.showMessageDialog(this, "El archivo " + ARCHIVO_ALUMNOS + " no existe aún.", "Aviso", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		List<String> lineasConservadas = new ArrayList<>();
-		boolean encontrado = false;
+	// Busca los datos en pendientes.txt y autocompleta la vista
+	private void buscarEnPendientePorDni(String dni) {
+		File archivo = new File("pendientes.txt");
+		if (!archivo.exists()) return;
 
 		try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
 			String linea;
 			while ((linea = br.readLine()) != null) {
 				String[] datos = linea.split(";");
-				if (datos.length > 0 && datos[0].equals(targetMatricula)) {
-					encontrado = true;
-				} else {
-					lineasConservadas.add(linea);
-				}
-			}
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, "Error al leer " + ARCHIVO_ALUMNOS, "Error", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+				if (datos.length >= 9) {
+					String dniAlu = datos[3].trim();
+					if (dniAlu.equals(dni)) {
+						textMatricula.setText(datos[0].trim());
+						textNombresAlumno.setText(datos[4].trim());
+						textDniApoderado.setText(datos[5].trim());
+						textNombresApoderado.setText(datos[6].trim());
+						textTelefono.setText(datos[7].trim());
 
-		if (encontrado) {
-			try (PrintWriter pw = new PrintWriter(new FileWriter(archivo, false))) {
-				for (String l : lineasConservadas) {
-					pw.println(l);
+						String grado = datos[8].trim();
+						for (int i = 0; i < comboBox.getItemCount(); i++) {
+							if (comboBox.getItemAt(i).equalsIgnoreCase(grado)) {
+								comboBox.setSelectedIndex(i);
+								break;
+							}
+						}
+						JOptionPane.showMessageDialog(this, "Datos de alumno pendiente cargados automáticamente.");
+						break;
+					}
 				}
-				JOptionPane.showMessageDialog(this, "Matrícula N° " + targetMatricula + " anulada correctamente.");
-				actualizarVacantes();
-				listarMatriculas();
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, "Error al reescribir " + ARCHIVO_ALUMNOS, "Error", JOptionPane.ERROR_MESSAGE);
 			}
-		} else {
-			JOptionPane.showMessageDialog(this, "No se encontró la matrícula N° " + targetMatricula + " en " + ARCHIVO_ALUMNOS, "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "Error al leer pendientes.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+		
+		// Remueve un registro de pendientes.txt tras ser matriculado
+		private void eliminarDePendientes(String dniAlumno) {
+			File archivoOriginal = new File("pendientes.txt");
+			if (!archivoOriginal.exists()) return;
+
+			File archivoTemporal = new File("pendientes_temp.txt");
+
+			try (BufferedReader br = new BufferedReader(new FileReader(archivoOriginal));
+				 PrintWriter pw = new PrintWriter(new FileWriter(archivoTemporal))) {
+
+				String linea;
+				while ((linea = br.readLine()) != null) {
+					String[] datos = linea.split(";");
+					if (datos.length >= 4 && datos[3].trim().equals(dniAlumno)) {
+						continue; // Saltear la línea a eliminar
+					}
+					pw.println(linea);
+				}
+
+			} catch (IOException e) {
+				return;
+			}
+
+			if (archivoOriginal.delete()) {
+				archivoTemporal.renameTo(archivoOriginal);
+			}
+		}
+	
+	private void anularMatricula() {
+		String numMatricula = JOptionPane.showInputDialog(this, "Ingrese el N° de Matrícula a anular:");
+		if (numMatricula != null && !numMatricula.trim().isEmpty()) {
+			boolean encontrado = false;
+			for (int i = 0; i < listaMatriculas.size(); i++) {
+				if (listaMatriculas.get(i).getMatricula().equalsIgnoreCase(numMatricula.trim())) {
+					listaMatriculas.remove(i);
+					vacantesDisponibles++;
+					actualizarVacantes();
+					encontrado = true;
+					JOptionPane.showMessageDialog(this, "Matrícula " + numMatricula + " anulada correctamente.");
+					listarTodas();
+					break;
+				}
+			}
+			if (!encontrado) {
+				JOptionPane.showMessageDialog(this, "No se encontró el N° de matrícula ingresado.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	private void listarTodas() {
+		imprimirEncabezado();
+		for (Matricula m : listaMatriculas) {
+			textArea.append(m.obtenerFila());
 		}
 	}
 
 	private void limpiarCampos() {
+		textMatricula.setText("");
 		textDniAlumno.setText("");
-		textAlumno.setText("");
 		textDniApoderado.setText("");
-		textApoderado.setText("");
+		textNombresAlumno.setText("");
+		textNombresApoderado.setText("");
 		textTelefono.setText("");
-		textDniAlumno.requestFocus();
+		comboBox.setSelectedIndex(0);
+		textMatricula.requestFocus();
 	}
 
-	private void nuevoRegistro() {
-		textMatricula.setText(String.valueOf(correlativo));
-		textFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-		textHora.setText(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-	}
-
-	private void cargarCorrelativo() {
-		File file = new File(ARCHIVO_ALUMNOS);
-		if (!file.exists()) return;
-
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-			String linea;
-			int max = correlativo;
-			while ((linea = br.readLine()) != null) {
-				String[] datos = linea.split(";");
-				if (datos.length > 0) {
-					try {
-						int num = Integer.parseInt(datos[0]);
-						if (num >= max) {
-							max = num + 1;
-						}
-					} catch (NumberFormatException ignored) {}
-				}
-			}
-			correlativo = max;
-		} catch (Exception ignored) {}
+	private void cargarFechaHora() {
+	    LocalDate hoy = LocalDate.now();
+	    LocalTime ahora = LocalTime.now();
+	    textFecha.setText(hoy.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+	    textHora.setText(ahora.format(DateTimeFormatter.ofPattern("HH:mm:ss"))); // <-- Formato con segundos
 	}
 
 	private void actualizarVacantes() {
-		int capacidadMaxima = 30;
-		String gradoSeleccionado = (String) comboBox.getSelectedItem();
-		int ocupados = 0;
-
-		File file = new File(ARCHIVO_ALUMNOS);
-		if (file.exists()) {
-			try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-				String linea;
-				while ((linea = br.readLine()) != null) {
-					String[] datos = linea.split(";");
-					if (datos.length >= 8 && datos[datos.length - 1].equals(gradoSeleccionado)) {
-						ocupados++;
-					}
-				}
-			} catch (Exception ignored) {}
-		}
-
-		int vacantes = capacidadMaxima - ocupados;
-		textVacante.setText(String.valueOf(vacantes));
+		textVacantes.setText(String.valueOf(vacantesDisponibles));
 	}
-
-	private void listarMatriculas() {
-		textArea.setText("");
-		StringBuilder sb = new StringBuilder();
-		sb.append(String.format("%-8s %-10s %-8s %-18s %-10s\n", "NRO MAT", "DNI ALU", "GRADO", "ALUMNO", "TELÉFONO"));
-		sb.append("----------------------------------------------------------------------------------\n");
-
-		File file = new File(ARCHIVO_ALUMNOS);
-		if (file.exists()) {
-			try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-				String linea;
-				while ((linea = br.readLine()) != null) {
-					if (linea.trim().isEmpty()) continue;
-					
-					String[] datos = linea.split(";");
-					if (datos.length >= 8) {
-						String numMat = datos[0];
-						String dniAlu = datos[3];
-						String nomAlu = datos[4];
-						String telefono = (datos.length >= 9) ? datos[7] : "S/N";
-						String grado = datos[datos.length - 1];
-
-						sb.append(String.format("%-8s %-10s %-8s %-18s %-10s\n", 
-								numMat, dniAlu, grado, 
-								nomAlu.length() > 16 ? nomAlu.substring(0, 16) : nomAlu,
-								telefono));
-					}
-				}
-			} catch (Exception ignored) {}
-		}
-
-		textArea.setText(sb.toString());
-	}
-
-	protected void actionPerformedBtnCerrar_1(ActionEvent e) {
-		if (ventanaInicio != null) {
-			ventanaInicio.setVisible(true);
-		} else {
-			new ModuloInicio().setVisible(true);
-		}
-		dispose();
+	protected void actionPerformedBtnGuardar(ActionEvent e) {
+		
 	}
 }
