@@ -71,7 +71,18 @@ public class ModuloInicio extends JFrame implements ActionListener {
                 setVisible(false); // Oculta la ventana de inicio actual
             }
         });
-
+        
+        
+        btnReporte.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ModuloReporte ventanaReportes = new ModuloReporte(null);
+                ventanaReportes.setVisible(true);
+                setVisible(false);
+            }
+        });
+        
+       
+             
         // Estilo de texto para los botones
         Font fuenteBotones = new Font("Arial", Font.BOLD, 18);
         btnMatricula.setFont(fuenteBotones);

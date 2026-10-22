@@ -519,27 +519,93 @@ public class ModuloMatricula extends JFrame implements ActionListener {
 			}
 		}
 	
-	private void anularMatricula() {
-		String numMatricula = JOptionPane.showInputDialog(this, "Ingrese el N° de Matrícula a anular:");
-		if (numMatricula != null && !numMatricula.trim().isEmpty()) {
-			boolean encontrado = false;
-			for (int i = 0; i < listaMatriculas.size(); i++) {
-				if (listaMatriculas.get(i).getMatricula().equalsIgnoreCase(numMatricula.trim())) {
-					listaMatriculas.remove(i);
-					vacantesDisponibles++;
-					actualizarVacantes();
-					encontrado = true;
-					JOptionPane.showMessageDialog(this, "Matrícula " + numMatricula + " anulada correctamente.");
-					listarTodas();
-					break;
-				}
-			}
-			if (!encontrado) {
-				JOptionPane.showMessageDialog(this, "No se encontró el N° de matrícula ingresado.", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}
+		private void anularMatricula() {
+		    String numMatricula = JOptionPane.showInputDialog(this, "Ingrese el N° de Matrícula a anular:");
+		    if (numMatricula == null || numMatricula.trim().isEmpty()) return;
+		    numMatricula = numMatricula.trim();
 
+		    File f = new File("alumnos.txt");
+		    if (!f.exists()) {
+		        JOptionPane.showMessageDialog(this, "No existe el archivo alumnos.txt.", "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+
+		    ArrayList<String> lineas = new ArrayList<>();
+		    try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+		        String l;
+		        while ((l = br.readLine()) != null) lineas.add(l);
+		    } catch (IOException e) {
+		        JOptionPane.showMessageDialog(this, "Error al leer alumnos.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+
+		    // 1. Buscar y quitar la línea de matrícula (formato "N°;fecha;hora;...")
+		    boolean encontrado = false;
+		    for (int i = 0; i < lineas.size(); i++) {
+		        if (lineas.get(i).trim().startsWith(numMatricula + ";")) {
+		            lineas.remove(i);
+		            encontrado = true;
+		            break;
+		        }
+		    }
+
+		    if (!encontrado) {
+		        JOptionPane.showMessageDialog(this, "No se encontró el N° de matrícula ingresado.", "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+
+		    // 2. Eliminar el bloque completo del alumno (desde "Código: ..." hasta "====")
+		    for (int i = 0; i < lineas.size(); i++) {
+		        if (lineas.get(i).trim().equals("Código: " + numMatricula)) {
+		            int fin = i;
+		            while (fin < lineas.size() && !lineas.get(fin).trim().startsWith("====")) fin++;
+		            // borrar de atrás hacia adelante para no desordenar los índices
+		            for (int k = Math.min(fin, lineas.size() - 1); k >= i; k--) lineas.remove(k);
+		            break;
+		        }
+		    }
+
+		    // 3. Guardar el archivo
+		    try (PrintWriter pw = new PrintWriter(new FileWriter(f))) {
+		        for (String l : lineas) pw.println(l);
+		    } catch (IOException e) {
+		        JOptionPane.showMessageDialog(this, "Error al guardar alumnos.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+
+		    // 4. Quitar de la lista en pantalla (si estaba en esta sesión) y liberar vacante
+		    for (int i = 0; i < listaMatriculas.size(); i++) {
+		        if (listaMatriculas.get(i).getMatricula().equalsIgnoreCase(numMatricula)) {
+		            listaMatriculas.remove(i);
+		            break;
+		        }
+		    }
+		    if (vacantesDisponibles < 30) vacantesDisponibles++;
+		    actualizarVacantes();
+		    listarTodas();
+
+		    JOptionPane.showMessageDialog(this, "Matrícula " + numMatricula + " anulada correctamente.\n"
+		            + "El alumno vuelve a estado 0 (Registrado).");
+		}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	private void listarTodas() {
 		imprimirEncabezado();
 		for (Matricula m : listaMatriculas) {

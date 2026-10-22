@@ -142,54 +142,6 @@ Estado de Matrícula: 1
 Fecha de Movimiento: 20/10/2026
 Responsable del Movimiento: Matrícula
 ====
-Código: 45682719010
-DNI: 45682719
-Nombre: Carmen Rosa
-Apellidos: Aguilar Soto
-Edad: 0
-Grado al que pasa: 1 - A
-Teléfono: 
-Nombre del Papá: Carmen Rosa Aguilar Soto
-Nombre de la Mamá: 
-Celular Apoderado: 943216587
-DNI Apoderado: 78945612
-Dirección: 
-Estado de Matrícula: 1
-Fecha de Movimiento: 20/10/2026
-Responsable del Movimiento: Matrícula
-====
-Código: 48854649011
-DNI: 48854649
-Nombre: Felix
-Apellidos: Casas Lopez
-Edad: 0
-Grado al que pasa: 3 - A
-Teléfono: 
-Nombre del Papá: Juliano Paz Ita
-Nombre de la Mamá: 
-Celular Apoderado: 930281498
-DNI Apoderado: 07059061
-Dirección: 
-Estado de Matrícula: 1
-Fecha de Movimiento: 20/10/2026
-Responsable del Movimiento: Matrícula
-====
-Código: 32654598012
-DNI: 32654598
-Nombre: Sara
-Apellidos: Huanay Chira
-Edad: 0
-Grado al que pasa: 6 - C
-Teléfono: 
-Nombre del Papá: Sarita Juana Lao Loto
-Nombre de la Mamá: 
-Celular Apoderado: 956545981
-DNI Apoderado: 78894556
-Dirección: 
-Estado de Matrícula: 1
-Fecha de Movimiento: 20/10/2026
-Responsable del Movimiento: Mantenimiento
-====
 84261573001;20/10/2026;21:10:15;84261573;Miguel Ángel Cárdenas Rojas;71582496;Miguel Ángel Cárdenas Rojas;987456123;1 - A
 59374128002;20/10/2026;21:12:47;59374128;Paola Andrea Mendoza Silva;82471539;Paola Andrea Mendoza Silva;956321478;2 - A
 71483952003;20/10/2026;21:14:22;71483952;Javier Enrique Torres Díaz;96325814;Javier Enrique Torres Díaz;945612378;3 - C
@@ -199,6 +151,3 @@ Responsable del Movimiento: Mantenimiento
 52964817007;20/10/2026;21:22:56;52964817;Fernando José Rivas Castillo;85214796;Fernando José Rivas Castillo;965214387;1 - C
 68427153008;20/10/2026;21:25:11;68427153;Sandra Beatriz Navarro Ruiz;14725836;Sandra Beatriz Navarro Ruiz;921563874;6 - C
 79153642009;20/10/2026;21:27:34;79153642;Luis Fernando Paredes Mendoza;45612378;Luis Fernando Paredes Mendoza;989741236;6 - B
-45682719010;20/10/2026;21:29:58;45682719;Carmen Rosa Aguilar Soto;78945612;Carmen Rosa Aguilar Soto;943216587;1 - A
-48854649011;20/10/2026;22:19:20;48854649;Felix Casas Lopez;07059061;Juliano Paz Ita;930281498;3 - A
-32654598012;20/10/2026;23:05:10;32654598;Sara Huanay Chira;78894556;Sarita Juana Lao Loto;956545981;1 - A
