@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Código: 84261573001
 DNI: 84261573
 Nombre: Miguel Ángel
@@ -142,6 +143,9 @@ Estado de Matrícula: 1
 Fecha de Movimiento: 20/10/2026
 Responsable del Movimiento: Matrícula
 ====
+=======
+
+>>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
 84261573001;20/10/2026;21:10:15;84261573;Miguel Ángel Cárdenas Rojas;71582496;Miguel Ángel Cárdenas Rojas;987456123;1 - A
 59374128002;20/10/2026;21:12:47;59374128;Paola Andrea Mendoza Silva;82471539;Paola Andrea Mendoza Silva;956321478;2 - A
 71483952003;20/10/2026;21:14:22;71483952;Javier Enrique Torres Díaz;96325814;Javier Enrique Torres Díaz;945612378;3 - C
@@ -151,3 +155,11 @@ Responsable del Movimiento: Matrícula
 52964817007;20/10/2026;21:22:56;52964817;Fernando José Rivas Castillo;85214796;Fernando José Rivas Castillo;965214387;1 - C
 68427153008;20/10/2026;21:25:11;68427153;Sandra Beatriz Navarro Ruiz;14725836;Sandra Beatriz Navarro Ruiz;921563874;6 - C
 79153642009;20/10/2026;21:27:34;79153642;Luis Fernando Paredes Mendoza;45612378;Luis Fernando Paredes Mendoza;989741236;6 - B
+<<<<<<< HEAD
+=======
+45682719010;20/10/2026;21:29:58;45682719;Carmen Rosa Aguilar Soto;78945612;Carmen Rosa Aguilar Soto;943216587;1 - A
+48854649011;20/10/2026;22:19:20;48854649;Felix Casas Lopez;07059061;Juliano Paz Ita;930281498;3 - A
+32654598012;20/10/2026;23:05:10;32654598;Sara Huanay Chira;78894556;Sarita Juana Lao Loto;956545981;1 - A
+10000000234;21/10/2026;21:05:31;72975680;Junior Pacaya Delgado;72975686;Diana Delgado Vela;901076020;6 - C
+>>>>>>> branch 'master' of https://github.com/jpdelgadoconduto-maxi/COLEGIOPROYECTO.git
+73637058014;21/10/2026;22:46:24;73637058;Cesar Leon;07058464;Lucas Hernandez;935327243;1 - A

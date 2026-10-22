@@ -25,7 +25,7 @@ public class ModuloInicio extends JFrame implements ActionListener {
         panelSuperior.setBackground(new Color(24, 43, 73)); // Azul institucional
         panelSuperior.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
         
-        JLabel lblTitulo = new JLabel("SISTEMA DE GESTIÃ“N - COLEGIO MIGUEL GRAU");
+        JLabel lblTitulo = new JLabel("SISTEMA DE GESTIÓN - COLEGIO MIGUEL GRAU");
         lblTitulo.setForeground(Color.WHITE);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
         panelSuperior.add(lblTitulo);
