@@ -176,7 +176,7 @@ public class ModuloConsulta extends JFrame {
 				textField.setText("");
 				textArea.setText("");
 				comboBox.setSelectedIndex(0);
-				comboBox_1.setSelectedIndex(0);
+				comboBox.setSelectedIndex(0);
 			}
 		});
 		btnNewButton_1.setBounds(287, 59, 116, 23);
